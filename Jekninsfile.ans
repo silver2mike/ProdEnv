@@ -6,7 +6,10 @@ pipeline {
   stages {
     stage('AWS Env Provisioning by Terrsform') {
       steps {
-       sh 'terraform apply --auto-approve'
+       sh '''
+         terraform init
+         terraform apply --auto-approve'
+       '''
       }
     }
     stage('Update ProdServer by Ansible') {
