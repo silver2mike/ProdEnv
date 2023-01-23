@@ -2,8 +2,8 @@ pipeline {
   agent {label 'Ansible'}
   environment {
     ANSIBLE_PK            = credentials('AWS-ProdServer-private-key')
-    AWS_ACCESS_KEY_ID     = credentials('AWS_EC2_Inventory-aws-secret-key-id')
-    AWS_SECRET_ACCESS_KEY = credentials('AWS_EC2_Inventory-aws-secret-access-key')
+    AWS_ACCESS_KEY_ID     = credentials('AWS_EC2_Inventory-secret-key-id')
+    AWS_SECRET_ACCESS_KEY = credentials('AWS_EC2_Inventory-secret-access-key')
   }
   stages {
     stage('Update ProdServer') {
