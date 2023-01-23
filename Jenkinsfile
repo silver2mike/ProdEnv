@@ -7,8 +7,8 @@ pipeline {
     stage('AWS Env Provisioning by Terrsform') {
       steps {
         withCredentials([[
-          $class: 'AmazonWebServicesCredentialsBinding', 
-          credentialsId: 'AWS_Terraform', 
+          $class:            'AmazonWebServicesCredentialsBinding', 
+          credentialsId:     'AWS_Terraform', 
           accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
           secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
           
@@ -23,8 +23,8 @@ pipeline {
     stage('Update ProdServer by Ansible') {
       steps {
         withCredentials([[
-          $class: 'AmazonWebServicesCredentialsBinding', 
-          credentialsId: 'AWS_EC2_Inventory', 
+          $class:            'AmazonWebServicesCredentialsBinding', 
+          credentialsId:     'AWS_EC2_Inventory', 
           accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
           secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
           
