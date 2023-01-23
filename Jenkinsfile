@@ -1,3 +1,5 @@
+// Deploy Production AWS Infrastructure
+
 pipeline {
   agent {label 'Ansible'}
   environment {
@@ -21,7 +23,7 @@ pipeline {
      }
    }
     
-    stage('Update ProdServer by Ansible') {
+    stage('Update ProdServer, install and run Docker by Ansible') {
       steps {
         withCredentials([[
           $class:            'AmazonWebServicesCredentialsBinding', 
