@@ -15,6 +15,7 @@ pipeline {
             sh '''
             terraform init
             terraform apply --auto-approve
+            sleep 60
             '''
        }
      }
