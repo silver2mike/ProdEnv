@@ -6,7 +6,7 @@ pipeline {
   stages {
     stage('AWS Env Provisioning by Terrsform') {
       steps {
-       withCredentials([[
+        withCredentials([[
           $class: 'AmazonWebServicesCredentialsBinding', 
           credentialsId: 'AWS_Terraform', 
           accessKeyVariable: 'ACCESS_KEY', 
@@ -16,8 +16,9 @@ pipeline {
             terraform init
             terraform apply --auto-approve
             '''
-      }
-    }
+       }
+     }
+   }
     
     stage('Update ProdServer by Ansible') {
       steps {
