@@ -5,6 +5,8 @@ pipeline {
     stage('Hello') {
       steps {
         sh '''
+          cd /home/ec2-user/ansible
+          ansible-playbook -i aws_ec2.yaml pb6.yml
           pwd
           ls -la
           ansible --version
