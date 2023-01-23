@@ -4,7 +4,12 @@ pipeline {
     ANSIBLE_PK = credentials('AWS-ProdServer-private-key')
   }
   stages {
-    stage('Update ProdServer') {
+    stage('AWS Env Provisioning by Terrsform') {
+      steps {
+       sh 'terraform apply --auto-approve'
+      }
+    }
+    stage('Update ProdServer by Ansible') {
       steps {
         withCredentials([[
           $class: 'AmazonWebServicesCredentialsBinding', 
