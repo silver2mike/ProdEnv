@@ -13,8 +13,8 @@ pipeline {
           secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
           
             sh '''
-            terraform init
-            terraform apply --auto-approve
+            // terraform init
+            terraform destroy --auto-approve
             '''
        }
      }
