@@ -1,7 +1,7 @@
 pipeline {
   agent {label 'Ansible'}
   environment {
-    ANSIBLE_PK=credentials{'AWS-ProdServer-private-key'}
+    ANSIBLE_PK=credentials('AWS-ProdServer-private-key')
   }
   stages {
     stage('Update ProdServer') {
