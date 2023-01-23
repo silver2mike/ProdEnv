@@ -1,13 +1,12 @@
 pipeline {
   agent {label 'Ansible'}
-
+  environment {
+    ANSIBLE_PK=credentials{'AWS-ProdServer-private-key'}
+  }
   stages {
     stage('Update ProdServer') {
       steps {
-        sh '''
-          cd /home/ec2-user/ansible
-          ansible-playbook -i aws_ec2.yaml pb6.yml
-        '''
+        sh 'ansible-playbook --private-key=$ANSIBLE_PK -i aws_ec2.yaml prod.yml'
       }
     }
   }
