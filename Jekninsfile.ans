@@ -11,12 +11,14 @@ pipeline {
           credentialsId: 'AWS_Terraform', 
           accessKeyVariable: 'ACCESS_KEY', 
           secretKeyVariable: 'SECRET_KEY']]) {
-       sh '''
-         terraform init
-         terraform apply --auto-approve
-       '''
+          
+            sh '''
+            terraform init
+            terraform apply --auto-approve
+            '''
       }
     }
+    
     stage('Update ProdServer by Ansible') {
       steps {
         withCredentials([[
