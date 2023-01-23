@@ -6,11 +6,7 @@ pipeline {
   stages {
     stage('Update ProdServer') {
       steps {
-      withCredentials([$class: 'AmazonWebServicesCredentialsBinding',
-                      credentialsId: 'awsID',
-                      accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'])
-                      
+        withCredentials([$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'awsID', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'])
         sh 'ansible-playbook --private-key=$ANSIBLE_PK -i aws_ec2.yaml prod.yml'
       }
     }
