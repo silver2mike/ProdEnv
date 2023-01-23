@@ -12,7 +12,7 @@ pipeline {
           accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
           secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
             sh '''
-            echo $AWS_ACCESS_KEY_ID'
+            echo $AWS_ACCESS_KEY_ID
             ansible-playbook --private-key=$ANSIBLE_PK -i aws_ec2.yaml prod.yml
             '''
         }
