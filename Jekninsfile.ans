@@ -6,7 +6,7 @@ pipeline {
       steps {
         sh '''
           pwd
-          ll
+          ls -la
           ansible --version
           ansible-playbook --version
           ansible-galaxy --version
