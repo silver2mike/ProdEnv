@@ -12,6 +12,14 @@ provider "aws" {
     region      = "us-east-1"
 }
 
+terraform {
+  backend "s3" {
+    bucket     = "mikedzn-epam-tf"
+    key        = "prod/terraform.tfstate"
+    region     = "us-east-1"
+  }
+}
+
 # Find out a list of AZ
 
 data "aws_availability_zones" "az" {}
