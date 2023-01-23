@@ -2,6 +2,11 @@ pipeline {
   agent {label 'Ansible'}
   environment {
     ANSIBLE_PK=credentials('AWS-ProdServer-private-key')
+    withCredentials([$class: 'AmazonWebServicesCredentialsBinding',
+                      credentialsId: 'awsID',
+                      accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'])
+    
   }
   stages {
     stage('Update ProdServer') {
