@@ -6,6 +6,11 @@ pipeline {
   stages {
     stage('AWS Env Provisioning by Terrsform') {
       steps {
+       withCredentials([[
+          $class: 'AmazonWebServicesCredentialsBinding', 
+          credentialsId: 'AWS_Terraform', 
+          accessKeyVariable: 'ACCESS_KEY', 
+          secretKeyVariable: 'SECRET_KEY']]) {
        sh '''
          terraform init
          terraform apply --auto-approve
