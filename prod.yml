@@ -51,7 +51,7 @@
 
   - name: Run httpd container
     docker_container:
-      name: httpd
-      image: httpd
+      name: custom Appache 
+      image: mikedzn/epam
       exposed_ports: "80"
       ports: "80:80"
