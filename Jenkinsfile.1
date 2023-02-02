@@ -31,11 +31,11 @@ pipeline {
      		}
    	}
     	stage("AWS Env ${CHOICE} by Terraform") {
-		when {
+			when {
                 	expression { 
                    		return params.CHOICE != 'build'
                 	}
-            	}
+			}
       		steps {
         		withCredentials([[
           		$class:            'AmazonWebServicesCredentialsBinding', 
@@ -48,5 +48,6 @@ pipeline {
             			'''          
         		}
       		}
- 	}
+		}
+	}
 }
