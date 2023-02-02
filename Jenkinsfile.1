@@ -25,7 +25,7 @@ pipeline {
       			secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 	        		sh '''
             		terraform init
-           			terraform apply --auto-approve
+           			terraform apply --auto-approve -no-color
            			sleep 60
 					'''
 	       		}
@@ -65,7 +65,7 @@ pipeline {
           		secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
             		sh '''
             		terraform init
-            		terraform ${CHOICE} --auto-approve
+            		terraform ${CHOICE} --auto-approve -no-color
             		'''          
         		}
 			}
@@ -85,7 +85,7 @@ pipeline {
           		secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
             		sh '''
             		terraform init
-            		terraform ${CHOICE}
+            		terraform ${CHOICE} -no-color
             		'''          
         		}
 			}
