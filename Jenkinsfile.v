@@ -2,6 +2,9 @@
 
 pipeline {
   agent {label 'Ansible'}
+  parameters {
+    choice choices: ['Validate', 'Plan', 'Build', 'Destroy'], name: "CHOICE"
+}
   environment {
     ANSIBLE_PK = credentials('AWS-ProdServer-private-key')
   }
@@ -17,7 +20,7 @@ pipeline {
             sh '''
               terraform init
               terraform validate
-              echo "${Choises}"
+              echo "${param.CHOICE}"
             '''
         }
       }
