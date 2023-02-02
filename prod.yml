@@ -69,10 +69,10 @@
       # we set this force parameter as true so that the latest version of the image tag is pulled
 #      force: true  
   - name: Pull an image
-  community.docker.docker_image:
-    name: mikedzn/epam_dev:latest
-    source: pull
-    force_source: true
+    community.docker.docker_image:
+      name: mikedzn/epam_dev:latest
+      source: pull
+      force_source: true
 
   - name: Inspect a single image
     docker_image_info:
