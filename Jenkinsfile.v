@@ -20,8 +20,8 @@ pipeline {
             sh '''
               terraform init
               terraform validate
-              echo "${param.CHOICE}"
             '''
+            echo "${param.CHOICE}"
         }
       }
     }
