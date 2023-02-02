@@ -9,13 +9,14 @@ pipeline {
     		ANSIBLE_PK = credentials('AWS-ProdServer-private-key')
 	}
   	stages {
+// 		Terraform apply
 		stage('AWS Env Provisioning by Terraform') {
 			when {
        	    	expression { 
        		 		return params.CHOICE == 'build'
 				}
         	}	
-// 			Terraform apply
+
     		steps {
         		withCredentials([[
          		$class:            'AmazonWebServicesCredentialsBinding', 
@@ -29,7 +30,9 @@ pipeline {
 					'''
 	       		}
      		}
-// 			Ansible playbook with dynamic inventory
+		}
+// 		Ansible playbook with dynamic inventory
+		stage('Update ProdServer, install and run Docker by Ansible') {
     		steps {
         		withCredentials([[
          		$class:            'AmazonWebServicesCredentialsBinding', 
@@ -41,7 +44,7 @@ pipeline {
 					'''
 	       		}
      		}
-   		}
+		}
 //		Terraform destroy		
 		stage('AWS Env destroy by Terraform') {
 			when {
