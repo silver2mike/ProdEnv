@@ -40,6 +40,7 @@ pipeline {
 			actions: {
                     		stage("AWS Env ${CHOICE} by Terraform") {
                         }
+			}
         		withCredentials([[
           		$class:            'AmazonWebServicesCredentialsBinding', 
           		credentialsId:     'AWS_EC2_Inventory', 
