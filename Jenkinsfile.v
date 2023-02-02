@@ -9,7 +9,7 @@ pipeline {
     ANSIBLE_PK = credentials('AWS-ProdServer-private-key')
   }
   stages {
-    stage("AWS Env ${CHOICE} by Terraform") {
+    stage('AWS Env by Terraform') {
       steps {
         withCredentials([[
           $class:            'AmazonWebServicesCredentialsBinding', 
