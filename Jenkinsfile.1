@@ -1,4 +1,4 @@
-// Deploy Production AWS Infrastructure
+// Actions with Production AWS Infrastructure (validate/plan/apply/destroy)
 
 pipeline {
 	agent {label 'Ansible'}
@@ -15,6 +15,8 @@ pipeline {
        		 		return params.CHOICE == 'build'
 				}
         	}	
+
+// 			Terraform apply
     		steps {
         		withCredentials([[
          		$class:            'AmazonWebServicesCredentialsBinding', 
@@ -25,17 +27,11 @@ pipeline {
             		terraform init
            			terraform apply --auto-approve
            			sleep 60
-//           			ansible-playbook --private-key=$ANSIBLE_PK -i aws_ec2.yaml prod.yml
 					'''
 	       		}
      		}
-   		}
-		stage('Update ProdServer, install and run Docker by Ansible') {
-			when {
-       	    	expression { 
-       		 		return params.CHOICE == 'build'
-				}
-        	}	
+
+// 			Ansible playbook with dynamic inventory
     		steps {
         		withCredentials([[
          		$class:            'AmazonWebServicesCredentialsBinding', 
@@ -43,14 +39,13 @@ pipeline {
     	  		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
       			secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 	        		sh '''
-//            		terraform init
-//           			terraform apply --auto-approve
-//           			sleep 60
            			ansible-playbook --private-key=$ANSIBLE_PK -i aws_ec2.yaml prod.yml
 					'''
 	       		}
      		}
+
    		}
+//		Terraform destroy		
 		stage('AWS Env destroy by Terraform') {
 			when {
                	expression { 
@@ -58,11 +53,6 @@ pipeline {
                	}
 			}
       		steps {
-//				actions: {
-//					stage("AWS Env ${CHOICE} by Terraform") {
-//						sh 'echo ${CHOICE}'
-//                	}
-//				}
         		withCredentials([[
           		$class:            'AmazonWebServicesCredentialsBinding', 
           		credentialsId:     'AWS_Terraform', 
@@ -75,18 +65,15 @@ pipeline {
         		}
 			}
 		}
-    	stage('AWS Env by Terraform') {
+
+//		Terraform other actions
+    	stage('AWS Env Test by Terraform') {
 			when {
                	expression { 
            			return params.CHOICE != 'build'
                	}
 			}
       		steps {
-//				actions: {
-//					stage("AWS Env ${CHOICE} by Terraform") {
-//						sh 'echo ${CHOICE}'
-//                	}
-//				}
         		withCredentials([[
           		$class:            'AmazonWebServicesCredentialsBinding', 
           		credentialsId:     'AWS_Terraform', 
