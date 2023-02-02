@@ -62,7 +62,8 @@
 
   - name: pull docker image
     docker_image:    
-      name: mikedzn/epam_prod
+      name: mikedzn/epam_dev
+      path: '/home/ubuntu'
       state: present    
       tag: latest
       # we set this force parameter as true so that the latest version of the image tag is pulled
