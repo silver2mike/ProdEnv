@@ -60,14 +60,14 @@
     register: image_id
     changed_when: image_id.rc != 0
 
-  - name: pull docker image
-    docker_image:    
-      name: mikedzn/epam_dev
-      path: '/home/ubuntu'
-      state: present    
-      tag: latest
+#  - name: pull docker image
+#    docker_image:    
+#      name: mikedzn/epam_dev
+#      path: '/home/ubuntu'
+#      state: present    
+#      tag: latest
       # we set this force parameter as true so that the latest version of the image tag is pulled
-      force: true  
+#      force: true  
 
   - name: Inspect a single image
     docker_image_info:
