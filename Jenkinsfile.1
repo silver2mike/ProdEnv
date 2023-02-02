@@ -51,6 +51,30 @@ pipeline {
 	       		}
      		}
    		}
+		stage('AWS Env destroy by Terraform') {
+			when {
+               	expression { 
+           			return params.CHOICE == 'destroy'
+               	}
+			}
+      		steps {
+//				actions: {
+//					stage("AWS Env ${CHOICE} by Terraform") {
+//						sh 'echo ${CHOICE}'
+//                	}
+//				}
+        		withCredentials([[
+          		$class:            'AmazonWebServicesCredentialsBinding', 
+          		credentialsId:     'AWS_Terraform', 
+          		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+          		secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+            		sh '''
+            		terraform init
+            		terraform ${CHOICE} --auto-approve
+            		'''          
+        		}
+			}
+		}
     	stage('AWS Env by Terraform') {
 			when {
                	expression { 
