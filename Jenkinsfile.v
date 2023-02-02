@@ -21,7 +21,7 @@ pipeline {
               terraform init
               terraform validate
             '''
-            echo "${param.CHOICE}"
+            return param.CHOICE
         }
       }
     }
