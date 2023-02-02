@@ -9,27 +9,27 @@ pipeline {
     		ANSIBLE_PK = credentials('AWS-ProdServer-private-key')
 	}
   	stages {
-	stage('AWS Env Provisioning by Terraform & Ansible') {
-		when {
-           	expression { 
-        		return params.CHOICE == 'build'
-            }
-        }
-    	steps {
-        	withCredentials([[
-         	$class:            'AmazonWebServicesCredentialsBinding', 
-	     	credentialsId:     'AWS_Terraform', 
-    	  	accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
-      		secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-	        	sh '''
-            	terraform init
-           		terraform apply --auto-approve
-           		sleep 60
-           		ansible-playbook --private-key=$ANSIBLE_PK -i aws_ec2.yaml prod.yml
-				'''
-	       	}
-     	}
-   	}
+		stage('AWS Env Provisioning by Terraform & Ansible') {
+			when {
+       	    	expression { 
+       		 		return params.CHOICE == 'build'
+				}
+        	}	
+    		steps {
+        		withCredentials([[
+         		$class:            'AmazonWebServicesCredentialsBinding', 
+	     		credentialsId:     'AWS_Terraform', 
+    	  		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+      			secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+	        		sh '''
+            		terraform init
+           			terraform apply --auto-approve
+           			sleep 60
+           			ansible-playbook --private-key=$ANSIBLE_PK -i aws_ec2.yaml prod.yml
+					'''
+	       		}
+     		}
+   		}
     	stage('AWS Env by Terraform') {
 			when {
                	expression { 
@@ -37,11 +37,11 @@ pipeline {
                	}
 			}
       		steps {
-				actions: {
-					stage("AWS Env ${CHOICE} by Terraform") {
-						sh 'echo ${CHOICE}'
-                	}
-				}		
+//				actions: {
+//					stage("AWS Env ${CHOICE} by Terraform") {
+//						sh 'echo ${CHOICE}'
+//                	}
+//				}
         		withCredentials([[
           		$class:            'AmazonWebServicesCredentialsBinding', 
           		credentialsId:     'AWS_EC2_Inventory', 
