@@ -23,11 +23,11 @@ pipeline {
 	     		credentialsId:     'AWS_Terraform', 
     	  		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
       			secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-	        		sh '''
-            		terraform init -no-color
-           			terraform apply --auto-approve -no-color
-           			sleep 1
-					'''
+//	        		sh '''
+//            		terraform init -no-color
+//           			terraform apply --auto-approve -no-color
+//           			sleep 60
+//					'''
 	       		}
      		}
 		}
