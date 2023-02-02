@@ -68,6 +68,10 @@
       tag: latest
       # we set this force parameter as true so that the latest version of the image tag is pulled
       force: true  
+
+  - name: Inspect a single image
+    docker_image_info:
+      name: mikedzn/epam_dev:latest 
     register: image_pull  
     # we compare the id of the image we already had with the id of the image we just pulled.
     # If they are different then image_pull.changed will be true
