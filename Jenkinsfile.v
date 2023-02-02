@@ -17,6 +17,7 @@ pipeline {
             sh '''
               terraform init
               terraform validate
+              echo "${Choises}"
             '''
         }
       }
