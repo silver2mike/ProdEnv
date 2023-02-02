@@ -39,7 +39,8 @@ pipeline {
       		steps {
 			actions: {
                     		stage("AWS Env ${CHOICE} by Terraform") {
-                        }
+					sh 'echo ${CHOICE}'
+                        	}
 			}
         		withCredentials([[
           		$class:            'AmazonWebServicesCredentialsBinding', 
