@@ -52,6 +52,12 @@
   - name: Run httpd container
     docker_container:
       name: custom_Appache 
-      image: mikedzn/epam_dev:30
+      image: mikedzn/epam_dev:latest
       exposed_ports: "80"
       ports: "80:80"
+
+  - name: Remove image
+    docker_image:
+      state: absent
+      name: mikedzn/epam_dev
+      tag: latest
