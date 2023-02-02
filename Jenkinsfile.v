@@ -9,7 +9,7 @@ pipeline {
     ANSIBLE_PK = credentials('AWS-ProdServer-private-key')
   }
   stages {
-    stage('AWS Env Destroy by Terrsform') {
+    stage('AWS Env ${CHOICE} by Terrsform') {
       steps {
         withCredentials([[
           $class:            'AmazonWebServicesCredentialsBinding', 
