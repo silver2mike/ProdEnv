@@ -64,7 +64,7 @@
     docker_image:
       force: yes
       name: mikedzn/epam_dev
-      path: '/opt'
+      path: '/home/ubuntu'
       rm: yes
       state: present
       tag: latest
