@@ -83,7 +83,7 @@
     ### changed_when: image_id.stdout != image_pull.images(Id)
   - name: Print
     debug:
-      msg: "{{ image_pull.images[Id] }}"
+      msg: "{{ image_pull.images.['Id'] }}"
 
 
 #  - name: Build Docker Image
