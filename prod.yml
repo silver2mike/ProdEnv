@@ -49,15 +49,32 @@
     pip:
       name: docker
 
-  - name: Run httpd container
-    docker_container:
-      name: custom_Appache 
-      image: mikedzn/epam_dev:latest
-      exposed_ports: "80"
-      ports: "80:80"
+#  - name: Run httpd container
+#    docker_container:
+#      name: custom_Appache 
+#      image: mikedzn/epam_dev:latest
+#      exposed_ports: "80"
+#      ports: "80:80"
+  - name: Get Existing Image ID
+    command: 'docker images --format {% raw %}"{{.ID}}"{% endraw %} --no-trunc /mikedzn/epam_dev:latest'
+    register: image_id
+    changed_when: image_id.rc != 0
 
-  - name: Remove image
+  - name: Build Docker Image
     docker_image:
-      state: absent
+      force: yes
       name: mikedzn/epam_dev
+      path: '/tmp'
+      rm: yes
+      state: present
       tag: latest
+    register: image_build
+    changed_when: image_id.stdout != image_build.image.Id
+
+  - name: Create Docker Container
+    docker_container:
+      image: mikedzn/epam_dev
+      keep_volumes: yes
+      name: mikedzn_website
+      recreate: '{{ True if image_build.changed else omit }}'
+      state: started
