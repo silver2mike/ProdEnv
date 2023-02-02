@@ -60,21 +60,34 @@
     register: image_id
     changed_when: image_id.rc != 0
 
-  - name: Build Docker Image
-    docker_image:
-      force: yes
-      name: mikedzn/epam_dev
-      path: '/home/ubuntu'
-      rm: yes
-      state: present
+  - name: pull docker image
+    docker_image:    
+      name: mikedzn/epam_prod
+      state: present    
       tag: latest
-    register: image_build
-    changed_when: image_id.stdout != image_build.image.Id
+      # we set this force parameter as true so that the latest version of the image tag is pulled
+      force: true  
+    register: image_pull  
+    # we compare the id of the image we already had with the id of the image we just pulled.
+    # If they are different then image_pull.changed will be true
+    changed_when: imageid.stdout != image_pull.image.Id
+
+
+#  - name: Build Docker Image
+#    docker_image:
+#      force: yes
+#      name: mikedzn/epam_dev
+#      path: '/home/ubuntu'
+#      rm: yes
+#      state: present
+#      tag: latest
+#    register: image_build
+#    changed_when: image_id.stdout != image_build.image.Id
 
   - name: Create Docker Container
     docker_container:
       image: mikedzn/epam_dev
       keep_volumes: yes
       name: mikedzn_website
-      recreate: '{{ True if image_build.changed else omit }}'
+      recreate: '{{ True if image_pull.changed else omit }}'
       state: started
