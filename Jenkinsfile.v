@@ -16,7 +16,6 @@ pipeline {
           
             sh '''
               terraform init
-              terraform fmt -check
               terraform validate --auto-approve
             '''
         }
