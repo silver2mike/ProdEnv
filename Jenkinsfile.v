@@ -3,7 +3,7 @@
 pipeline {
   agent {label 'Ansible'}
   parameters {
-    choice choices: ['Validate', 'Plan', 'Build', 'Destroy'], name: "CHOICE"
+    choice choices: ['validate', 'plan', 'build', 'destroy'], name: "CHOICE"
 }
   environment {
     ANSIBLE_PK = credentials('AWS-ProdServer-private-key')
