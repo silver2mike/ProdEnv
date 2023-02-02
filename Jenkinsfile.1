@@ -15,7 +15,6 @@ pipeline {
        		 		return params.CHOICE == 'build'
 				}
         	}	
-
 // 			Terraform apply
     		steps {
         		withCredentials([[
@@ -30,7 +29,6 @@ pipeline {
 					'''
 	       		}
      		}
-
 // 			Ansible playbook with dynamic inventory
     		steps {
         		withCredentials([[
@@ -43,7 +41,6 @@ pipeline {
 					'''
 	       		}
      		}
-
    		}
 //		Terraform destroy		
 		stage('AWS Env destroy by Terraform') {
@@ -65,7 +62,6 @@ pipeline {
         		}
 			}
 		}
-
 //		Terraform other actions
     	stage('AWS Env Test by Terraform') {
 			when {
