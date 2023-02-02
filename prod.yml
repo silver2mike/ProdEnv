@@ -80,7 +80,10 @@
     register: image_pull  
     # we compare the id of the image we already had with the id of the image we just pulled.
     # If they are different then image_pull.changed will be true
-    changed_when: image_id.stdout != image_pull.images(Id)
+    ### changed_when: image_id.stdout != image_pull.images(Id)
+  - name: Print
+    debug:
+      msg: {{ image_pull.images }}
 
 
 #  - name: Build Docker Image
