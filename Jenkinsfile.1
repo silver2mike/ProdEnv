@@ -30,13 +30,16 @@ pipeline {
 	       		}
      		}
    	}
-    	stage("AWS Env ${CHOICE} by Terraform") {
+    	stage('AWS Env by Terraform') {
 			when {
                 	expression { 
                    		return params.CHOICE != 'build'
                 	}
 			}
       		steps {
+			actions: {
+                    		stage("AWS Env ${CHOICE} by Terraform") {
+                        }
         		withCredentials([[
           		$class:            'AmazonWebServicesCredentialsBinding', 
           		credentialsId:     'AWS_EC2_Inventory', 
