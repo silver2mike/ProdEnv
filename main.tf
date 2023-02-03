@@ -75,7 +75,7 @@ resource "aws_security_group_rule" "Outbound" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    source_security_group_id = aws_security_group.LB.id
+    cidr_blocks = ["0.0.0.0/0"]
     security_group_id = aws_security_group.Stages_Env.id
 }
 
