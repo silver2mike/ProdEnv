@@ -79,15 +79,15 @@
     name: mikedzn/epam_dev:latest
   register: image_info
 
-- name: Check if source changed
-  set_fact:
-    source_changed: False
-  when: image_info.id != myimage_id
+  - name: Check if source changed
+    set_fact:
+      source_changed: False
+    when: image_info.id != myimage_id
 
-- name: Update image id
-  set_fact:
-    myimage_id: "{{ image_info.id }}"
-  when: source_changed
+  - name: Update image id
+    set_fact:
+      myimage_id: "{{ image_info.id }}"
+    when: source_changed
 
 #  - name: Inspect a single image
 #    docker_image_info:
