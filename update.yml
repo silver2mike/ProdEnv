@@ -28,3 +28,5 @@
       image: mikedzn/epam_dev:latest
       state: started
       recreate: yes
+      exposed_ports: "80"
+      ports: "80:80"
