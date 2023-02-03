@@ -49,16 +49,19 @@
     pip:
       name: docker
 
-#  - name: Run httpd container
-#    docker_container:
-#      name: custom_Appache 
-#      image: mikedzn/epam_dev:latest
-#      exposed_ports: "80"
-#      ports: "80:80"
-  - name: Get Existing Image ID
-    command: 'docker images --format {% raw %}"{{.ID}}"{% endraw %} --no-trunc /mikedzn/epam_dev:latest'
-    register: myimage_id
-    changed_when: myimage_id.rc != 0
+  - name: Run httpd container
+    docker_container:
+      name: custom_Appache 
+      image: mikedzn/epam_dev:latest
+      exposed_ports: "80"
+      ports: "80:80"
+
+
+
+#  - name: Get Existing Image ID
+#    command: 'docker images --format {% raw %}"{{.ID}}"{% endraw %} --no-trunc /mikedzn/epam_dev:latest'
+#    register: myimage_id
+#    changed_when: myimage_id.rc != 0
 
 #  - name: pull docker image
 #    docker_image:    
@@ -68,16 +71,16 @@
 #      tag: latest
       # we set this force parameter as true so that the latest version of the image tag is pulled
 #      force: true  
-  - name: Pull an image
-    community.docker.docker_image:
-      name: mikedzn/epam_dev:latest
-      source: pull
-      force_source: true
+#  - name: Pull an image
+#    community.docker.docker_image:
+#      name: mikedzn/epam_dev:latest
+#      source: pull
+#      force_source: true
 
-  - name: Inspect Docker image
-    docker_image:
-      name: mikedzn/epam_dev:latest
-    register: image_info
+#  - name: Inspect Docker image
+#    docker_image:
+#      name: mikedzn/epam_dev:latest
+#    register: image_info
 
 #  - name: Check if source changed
 #    set_fact:
@@ -112,10 +115,10 @@
 #    register: image_build
 #    changed_when: image_id.stdout != image_build.image.Id
 
-  - name: Create Docker Container
-    docker_container:
-      image: mikedzn/epam_dev
-      keep_volumes: yes
-      name: mikedzn_website
-      recreate: '{{ True if image_pull.changed else omit }}'
-      state: started
+#  - name: Create Docker Container
+#    docker_container:
+#      image: mikedzn/epam_dev
+#      keep_volumes: yes
+#      name: mikedzn_website
+#      recreate: '{{ True if image_pull.changed else omit }}'
+#      state: started
