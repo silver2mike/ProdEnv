@@ -23,11 +23,11 @@ pipeline {
 	     		credentialsId:     'AWS_Terraform', 
     	  		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
       			secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-//	        		sh '''
-//            		terraform init -no-color
-//           			terraform apply --auto-approve -no-color
-//           			sleep 60
-//					'''
+	        		sh '''
+	            		terraform init -no-color
+           			terraform apply --auto-approve -no-color
+           			sleep 60
+				'''
 	       		}
      		}
 		}
@@ -46,7 +46,7 @@ pipeline {
       			secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 	        		sh '''
            			ansible-playbook --private-key=$ANSIBLE_PK -i aws_ec2.yaml prod.yml
-					'''
+				'''
 	       		}
      		}
 		}
