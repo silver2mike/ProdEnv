@@ -75,9 +75,9 @@
       force_source: true
 
   - name: Inspect Docker image
-  docker_image:
-    name: mikedzn/epam_dev:latest
-  register: image_info
+    docker_image:
+      name: mikedzn/epam_dev:latest
+    register: image_info
 
   - name: Check if source changed
     set_fact:
