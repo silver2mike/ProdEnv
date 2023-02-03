@@ -39,7 +39,7 @@ data "aws_security_group" "load_balancer" {
 }
 
 output "cidr_blocks" {
-  value = data.aws_security_group.load_balancer.cidr_blocks
+  value = data.aws_security_group.load_balancer.cidr_block
 }
 
 #   Resources creation
@@ -72,13 +72,13 @@ resource "aws_security_group" "Stages_Env" {
     from_port = 80
     to_port = 80
     protocol = "tcp"
-    cidr_blocks = [data.aws_security_group.load_balancer.cidr_blocks]
+    cidr_blocks = [data.aws_security_group.load_balancer.cidr_block]
   }
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [aws_security_group.load_balancer.cidr_blocks]
+    cidr_blocks = [aws_security_group.load_balancer.cidr_block]
   }
 }
 #resource "aws_security_group" "Prod_env_SG" {
