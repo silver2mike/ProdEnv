@@ -34,6 +34,14 @@ data "aws_ami" "latest_amazon_linux" {
   }
 }
 
+data "aws_security_group" "load_balancer" {
+  name = "Load balancer SG"
+}
+
+output "cidr_blocks" {
+  value = data.aws_security_group.load_balancer.cidr_blocks
+}
+
 #   Resources creation
 #-------------------------------------------------------------------
 
@@ -64,18 +72,18 @@ resource "aws_security_group" "Stages_Env" {
     from_port = 80
     to_port = 80
     protocol = "tcp"
-    cidr_blocks = [aws_security_group.load_balancer.cidr_block]
+    cidr_blocks = [data.aws_security_group.load_balancer.cidr_blocks]
   }
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [aws_security_group.load_balancer.cidr_block]
+    cidr_blocks = [aws_security_group.load_balancer.cidr_blocks]
   }
 }
 #resource "aws_security_group" "Prod_env_SG" {
 ##  name = "Stages SG"
-#
+#                                                              
 ##  dynamic "ingress" {
 #      for_each = ["80", "22"]
 #      content {
