@@ -64,13 +64,13 @@ resource "aws_security_group" "Stages_Env" {
     from_port = 80
     to_port = 80
     protocol = "tcp"
-    source_security_group_id = aws_security_group.load_balancer.id
+    source_security_group_id = [aws_security_group.load_balancer.id]
   }
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    source_security_group_id = aws_security_group.load_balancer.id
+    source_security_group_id = [aws_security_group.load_balancer.id]
   }
 }
 #resource "aws_security_group" "Prod_env_SG" {
