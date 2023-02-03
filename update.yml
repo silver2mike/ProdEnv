@@ -10,17 +10,17 @@
     ansible_user: ubuntu
 
   tasks:
-  - name: Pull Docker Image
-    docker_image:
-      name: mikedzn/epam_dev
-      state: present
-      source: pull
-      force_source: yes
-
   - name: Stop and remove existing Docker Container
     docker_image:
       name: mikedzn_website
       state: absent
+
+  - name: Pull Docker Image
+    docker_image:
+      name: mikedzn/epam_dev:latest
+      state: present
+      source: pull
+      force_source: yes
 
   - name: Start a new container based on the latest image
     docker_container:
