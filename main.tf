@@ -48,6 +48,7 @@ resource "aws_security_group" "Load_balancer" {
     to_port = 80
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 resource "aws_security_group" "Stages_Env" {
@@ -62,7 +63,6 @@ resource "aws_security_group" "Stages_Env" {
     Name        = "Stages Environment"
     Owner       = "Mykhailo P"
   }
-
 }
 #resource "aws_security_group" "Prod_env_SG" {
 ##  name = "Stages SG"
