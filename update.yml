@@ -26,4 +26,4 @@
       name: mikedzn_website
       image: mikedzn/epam_dev:latest
       state: started
-        recreate: yes
+      recreate: yes
