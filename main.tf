@@ -59,18 +59,24 @@ resource "aws_security_group" "Load_balancer" {
 
 resource "aws_security_group" "Stages_Env" {
   name = "Stages SG"
-  ingress {
+}
+
+resource "aws_security_group_rule" "Inbound" {
+    type = "ingress"
     description = "HTTP"
     from_port = 80
     to_port = 80
     protocol = "tcp"
-    source_security_group_id = [aws_security_group.load_balancer.id]
+    source_security_group_id = aws_security_group.load_balancer.id
+    security_group_id = aws_security_group.Stages_Env.id
   }
-  egress {
+resource "aws_security_group_rule" "Outbound" {
+    type = "egress"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    source_security_group_id = [aws_security_group.load_balancer.id]
+    source_security_group_id = aws_security_group.load_balancer.id
+    security_group_id = aws_security_group.Stages_Env.id
   }
 }
 #resource "aws_security_group" "Prod_env_SG" {
