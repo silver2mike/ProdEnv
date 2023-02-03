@@ -49,6 +49,12 @@ resource "aws_security_group" "Load_balancer" {
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+   egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 resource "aws_security_group" "Stages_Env" {
@@ -60,9 +66,11 @@ resource "aws_security_group" "Stages_Env" {
     protocol = "tcp"
     cidr_blocks = [aws_security_group.load_balancer.cidr_block]
   }
-  tags = {
-    Name        = "Stages Environment"
-    Owner       = "Mykhailo P"
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = [aws_security_group.load_balancer.cidr_block]
   }
 }
 #resource "aws_security_group" "Prod_env_SG" {
@@ -128,20 +136,20 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
   load_balancers            = [aws_elb.Prod_env_ELB.name]
   health_check_grace_period = 30
   
-   dynamic "tag" {
-       for_each = {
-           Name     = "Stages Environment"
-           Owner    = "Mykhailo P"
-       }
-       content {
-          key                   = tag.key
-          value                 = tag.value
-          propagate_at_launch   = true
-       }
-    }
-       lifecycle {
-           create_before_destroy = true
-        }
+  dynamic "tag" {
+     for_each = {
+         Name     = "Stages Environment"
+         Owner    = "Mykhailo P"
+     }
+     content {
+        key                   = tag.key
+        value                 = tag.value
+        propagate_at_launch   = true
+     }
+  }
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 # Elastic Load Balancer
