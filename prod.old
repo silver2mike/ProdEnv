@@ -1,0 +1,38 @@
+---
+- name: Update Docker container
+  gather_facts: no
+  hosts: tag_Name_Production_Environment
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3  
+    ansible_user: ubuntu
+  hosts: localhost
+  
+  tasks:
+    - name: Get latest image information
+      docker_image_facts:
+        name: myimage
+      register: image_info
+
+    - name: Get current container information
+      docker_container_info:
+        name: mycontainer
+      register: container_info
+
+    - name: Compare image ids
+      set_fact:
+        source_changed: False
+      when: image_info.ansible_facts.docker_image.Id != container_info.ansible_facts.docker_container.Image
+
+    - name: Stop and remove current container
+      docker_container:
+        name: mycontainer
+        state: absent
+      when: source_changed
+
+    - name: Start new container
+      docker_container:
+        name: mycontainer
+        image: myimage
+        state: started
+      when: source_changed
