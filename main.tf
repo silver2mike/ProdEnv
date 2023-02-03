@@ -113,7 +113,7 @@ resource "aws_launch_template" "Prod_env_LT" {
   name_prefix           = "ProdWebServer-"
   image_id              = data.aws_ami.latest_amazon_linux.id
   instance_type         = "t2.micro"
-  security_group_names  = [aws_security_group.Stages_env.name]
+  security_group_names  = [aws_security_group.Stages_Env.name]
   key_name              = "us-east-11"
   user_data            = filebase64("user_data.sh")
   lifecycle {
