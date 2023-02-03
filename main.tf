@@ -105,7 +105,7 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
   
    dynamic "tag" {
        for_each = {
-           Name     = "Production Environment"
+           Name     = "Stages Environment"
            Owner    = "Mykhailo P"
        }
        content {
