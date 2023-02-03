@@ -69,7 +69,7 @@ resource "aws_security_group_rule" "Inbound" {
     protocol = "tcp"
     source_security_group_id = aws_security_group.load_balancer.id
     security_group_id = aws_security_group.Stages_Env.id
-  }
+}
 resource "aws_security_group_rule" "Outbound" {
     type = "egress"
     from_port   = 0
@@ -77,8 +77,8 @@ resource "aws_security_group_rule" "Outbound" {
     protocol    = "-1"
     source_security_group_id = aws_security_group.load_balancer.id
     security_group_id = aws_security_group.Stages_Env.id
-  }
 }
+
 #resource "aws_security_group" "Prod_env_SG" {
 ##  name = "Stages SG"
 #                                                              
