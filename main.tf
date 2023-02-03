@@ -37,34 +37,58 @@ data "aws_ami" "latest_amazon_linux" {
 #   Resources creation
 #-------------------------------------------------------------------
 
-# Security group - Prod_env_SG
+# Security groups
 #-------------------------------------------------------------------
 
-resource "aws_security_group" "Prod_env_SG" {
-  name = "Production security group"
-
-  dynamic "ingress" {
-      for_each = ["80", "443", "22"]
-      content {
-            from_port   = ingress.value
-            to_port     = ingress.value
-            protocol    = "tcp"
-            cidr_blocks = ["0.0.0.0/0"]
-      }
-    
-  }
-  
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+resource "aws_security_group" "Load_balancer" {
+  name = "Load balancer SG"
+  ingress {
+    description = "HTTP"
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-  }
+}
+
+resource "aws_security_group" "Stages_Env" {
+  name = "Stages SG"
+  ingress {
+    description = "HTTP"
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+    cidr_blocks = [aws_security_group.load_balancer.cidr_block]
   tags = {
-    Name        = "Production Environment"
+    Name        = "Stages Environment"
     Owner       = "Mykhailo P"
   }
+
 }
+#resource "aws_security_group" "Prod_env_SG" {
+##  name = "Stages SG"
+#
+##  dynamic "ingress" {
+#      for_each = ["80", "22"]
+#      content {
+#            from_port   = ingress.value
+#            to_port     = ingress.value
+#            protocol    = "tcp"
+#            cidr_blocks = [aws_security_group.load_balancer.cidr_block]
+#      }
+#    
+#  }
+##  
+#  egress {
+#    from_port   = 0
+#    to_port     = 0
+#    protocol    = "-1"
+#    cidr_blocks = ["0.0.0.0/0"]
+#  }
+#  tags = {
+##    Name        = "Stages Environment"
+#    Owner       = "Mykhailo P"
+#  }
+#}
 
 # Launch template - Prod_env_LC
 #-------------------------------------------------------------------
@@ -99,7 +123,7 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
   desired_capacity          = 1
   #vpc_zone_identifier       = [aws_default_subnet.default_az1.id, aws_default_subnet.default_az2.id]
   availability_zones        = [data.aws_availability_zones.az.names[0], data.aws_availability_zones.az.names[1]]
-  health_check_type         = "EC2"
+  health_check_type         = "ELB"
   load_balancers            = [aws_elb.Prod_env_ELB.name]
   health_check_grace_period = 30
   
@@ -125,7 +149,7 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
 resource "aws_elb" "Prod_env_ELB" {
     name = "Prod-ELB"
     availability_zones = [data.aws_availability_zones.az.names[0], data.aws_availability_zones.az.names[1]]
-    security_groups = [aws_security_group.Prod_env_SG.id]
+    security_groups = [aws_security_group.load_balancer.id]
     listener {
         lb_port             = 80
         lb_protocol         = "http"
@@ -139,8 +163,9 @@ resource "aws_elb" "Prod_env_ELB" {
         target              = "HTTP:80/"
         interval            = 10
     }
+
     tags = {
-        Name = "Production Environment"
+        Name = "Stages Environment"
     }
 }
 
