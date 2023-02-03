@@ -58,7 +58,7 @@
   - name: Get Existing Image ID
     command: 'docker images --format {% raw %}"{{.ID}}"{% endraw %} --no-trunc /mikedzn/epam_dev:latest'
     register: myimage_id
-    changed_when: image_id.rc != 0
+    changed_when: myimage_id.rc != 0
 
 #  - name: pull docker image
 #    docker_image:    
