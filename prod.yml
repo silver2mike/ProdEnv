@@ -16,49 +16,48 @@
       state: latest
       update_cache: true
 
-  - name: Install required system packages
-    apt:
-      pkg:
-        - apt-transport-https
-        - ca-certificates
-        - curl
-        - software-properties-common
-        - python3-pip
-        - virtualenv
-        - python3-setuptools
-      state: latest
-      update_cache: true
+#  - name: Install required system packages
+#    apt:
+#      pkg:
+#        - apt-transport-https
+#        - ca-certificates
+#        - curl
+#        - software-properties-common
+#        - python3-pip
+#        - virtualenv
+#        - python3-setuptools
+#      state: latest
+#      update_cache: true
 
-  - name: Add Docker GPG apt Key
-    apt_key:
-      url: https://download.docker.com/linux/ubuntu/gpg
-      state: present
+#  - name: Add Docker GPG apt Key
+#    apt_key:
+#      url: https://download.docker.com/linux/ubuntu/gpg
+#      state: present
 
-  - name: Add Docker Repository
-    apt_repository:
-      repo: deb https://download.docker.com/linux/ubuntu focal stable
-      state: present
-
-  - name: Update apt and install docker-ce
-    apt:
-      name: docker-ce
-      state: latest
-      update_cache: true
-
-  - name: Install Docker Module for Python
-    pip:
-      name: docker
-
+#  - name: Add Docker Repository
+#    apt_repository:
+#      repo: deb https://download.docker.com/linux/ubuntu focal stable
+#      state: present
+#
+#  - name: Update apt and install docker-ce
+#    apt:
+#      name: docker-ce
+#      state: latest
+#      update_cache: true
+#  - name: Install Docker Module for Python
+#    pip:
+#      name: docker
+#
 #  - name: Run httpd container
 #    docker_container:
 #      name: custom_Appache 
 #      image: mikedzn/epam_dev:latest
 #      exposed_ports: "80"
 #      ports: "80:80"
-  - name: Get Existing Image ID
-    command: 'docker images --format {% raw %}"{{.ID}}"{% endraw %} --no-trunc /mikedzn/epam_dev:latest'
-    register: myimage_id
-    changed_when: myimage_id.rc != 0
+#  - name: Get Existing Image ID
+#    command: 'docker images --format {% raw %}"{{.ID}}"{% endraw %} --no-trunc /mikedzn/epam_dev:latest'
+#    register: myimage_id
+#    changed_when: myimage_id.rc != 0
 
 #  - name: pull docker image
 #    docker_image:    
@@ -68,26 +67,62 @@
 #      tag: latest
       # we set this force parameter as true so that the latest version of the image tag is pulled
 #      force: true  
-  - name: Pull an image
-    community.docker.docker_image:
-      name: mikedzn/epam_dev:latest
-      source: pull
-      force_source: true
 
-  - name: Inspect Docker image
-    docker_image:
-      name: mikedzn/epam_dev:latest
-    register: image_info
+#----------------------------------------------------------------
+- name: Update Docker container
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Get latest image information
+      docker_image_facts:
+        name: mikedzn/epam_dev:latest
+      register: image_info
 
-  - name: Check if source changed
-    set_fact:
-      source_changed: False
-    when: image_info.ansible_facts.docker_image.Id != myimage_id
+    - name: Get current container information
+      docker_container_info:
+        name: mikedzn_website
+      register: container_info
 
-  - name: Update image id
-    set_fact:
-      myimage_id: "{{ image_info.id }}"
-    when: source_changed
+    - name: Compare image ids
+      set_fact:
+        source_changed: False
+      when: image_info.ansible_facts.docker_image.Id != container_info.ansible_facts.docker_container.Image
+
+    - name: Stop and remove current container
+      docker_container:
+        name: mycontainer
+        state: absent
+      when: source_changed
+
+    - name: Start new container
+      docker_container:
+        name: mycontainer
+        image: myimage
+        state: started
+      when: source_changed
+#----------------------------------------------------------------
+
+
+#  - name: Pull an image
+#    community.docker.docker_image:
+#      name: mikedzn/epam_dev:latest
+#      source: pull
+#      force_source: true
+
+# - name: Inspect Docker image
+#    docker_image:
+#      name: mikedzn/epam_dev:latest
+#    register: image_info
+#
+#  - name: Check if source changed
+#    set_fact:
+#      source_changed: False
+#    when: image_info.ansible_facts.docker_image.Id != myimage_id
+#
+#  - name: Update image id
+#    set_fact:
+#      myimage_id: "{{ image_info.id }}"
+#    when: source_changed
 
 #  - name: Inspect a single image
 #    docker_image_info:
