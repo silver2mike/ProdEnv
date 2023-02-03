@@ -20,7 +20,7 @@
       name: mikedzn/epam_dev:latest
       state: present
       source: pull
-      nocache: yes
+      build.nocache: yes
       force_source: yes
 
   - name: Start a new container based on the latest image
