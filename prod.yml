@@ -1,156 +1,32 @@
-# Playbook for Docker Install and Run
-#
 ---
-- name: "AWS - Install docker"
-  gather_facts: no
-  hosts: tag_Name_Production_Environment
-  become: yes
-  vars:
-    ansible_python_interpreter: /usr/bin/python3  
-    ansible_user: ubuntu
-
+- name: Update Docker container
+  hosts: localhost
+  gather_facts: false
   tasks:
-  - name: Install aptitude
-    apt:
-      name: aptitude
-      state: latest
-      update_cache: true
+    - name: Get latest image information
+      docker_image_facts:
+        name: myimage
+      register: image_info
 
-#  - name: Install required system packages
-#    apt:
-#      pkg:
-#        - apt-transport-https
-#        - ca-certificates
-#        - curl
-#        - software-properties-common
-#        - python3-pip
-#        - virtualenv
-#        - python3-setuptools
-#      state: latest
-#      update_cache: true
+    - name: Get current container information
+      docker_container_info:
+        name: mycontainer
+      register: container_info
 
-#  - name: Add Docker GPG apt Key
-#    apt_key:
-#      url: https://download.docker.com/linux/ubuntu/gpg
-#      state: present
+    - name: Compare image ids
+      set_fact:
+        source_changed: False
+      when: image_info.ansible_facts.docker_image.Id != container_info.ansible_facts.docker_container.Image
 
-#  - name: Add Docker Repository
-#    apt_repository:
-#      repo: deb https://download.docker.com/linux/ubuntu focal stable
-#      state: present
-#
-#  - name: Update apt and install docker-ce
-#    apt:
-#      name: docker-ce
-#      state: latest
-#      update_cache: true
-#  - name: Install Docker Module for Python
-#    pip:
-#      name: docker
-#
-#  - name: Run httpd container
-#    docker_container:
-#      name: custom_Appache 
-#      image: mikedzn/epam_dev:latest
-#      exposed_ports: "80"
-#      ports: "80:80"
-#  - name: Get Existing Image ID
-#    command: 'docker images --format {% raw %}"{{.ID}}"{% endraw %} --no-trunc /mikedzn/epam_dev:latest'
-#    register: myimage_id
-#    changed_when: myimage_id.rc != 0
+    - name: Stop and remove current container
+      docker_container:
+        name: mycontainer
+        state: absent
+      when: source_changed
 
-#  - name: pull docker image
-#    docker_image:    
-#      name: mikedzn/epam_dev
-#      path: '/home/ubuntu'
-#      state: present    
-#      tag: latest
-      # we set this force parameter as true so that the latest version of the image tag is pulled
-#      force: true  
-
-#----------------------------------------------------------------
-  - name: Update Docker container
-    hosts: localhost
-    gather_facts: false
-    tasks:
-      - name: Get latest image information
-        docker_image_facts:
-          name: mikedzn/epam_dev:latest
-        register: image_info
-   
-      - name: Get current container information
-        docker_container_info:
-          name: mikedzn_website
-        register: container_info
-
-      - name: Compare image ids
-        set_fact:
-          source_changed: False
-        when: image_info.ansible_facts.docker_image.Id != container_info.ansible_facts.docker_container.Image
-
-      - name: Stop and remove current container
-        docker_container:
-          name: mycontainer
-          state: absent
-        when: source_changed
-
-      - name: Start new container
-        docker_container:
-          name: mycontainer
-          image: myimage
-          state: started
-        when: source_changed
-#----------------------------------------------------------------
-
-
-#  - name: Pull an image
-#    community.docker.docker_image:
-#      name: mikedzn/epam_dev:latest
-#      source: pull
-#      force_source: true
-
-# - name: Inspect Docker image
-#    docker_image:
-#      name: mikedzn/epam_dev:latest
-#    register: image_info
-#
-#  - name: Check if source changed
-#    set_fact:
-#      source_changed: False
-#    when: image_info.ansible_facts.docker_image.Id != myimage_id
-#
-#  - name: Update image id
-#    set_fact:
-#      myimage_id: "{{ image_info.id }}"
-#    when: source_changed
-
-#  - name: Inspect a single image
-#    docker_image_info:
-#      name: mikedzn/epam_dev:latest 
-#    register: image_pull  
-    # we compare the id of the image we already had with the id of the image we just pulled.
-    # If they are different then image_pull.changed will be true
-    ### changed_when: image_id.stdout != image_pull.images(Id)
-#  - name: Print
-#    debug:
-#      msg: "{{ image_pull.images('Architecture') }}"
-
-
-#  - name: Build Docker Image
-#    docker_image:
-#      force: yes
-#      name: mikedzn/epam_dev
-#      path: '/home/ubuntu'
-#      rm: yes
-#      state: present
-#      tag: latest
-#    register: image_build
-#    changed_when: image_id.stdout != image_build.image.Id
-
-  - name: Create Docker Container
-    docker_container:
-      image: mikedzn/epam_dev
-      keep_volumes: yes
-      name: mikedzn_website
-      recreate: '{{ True if image_pull.changed else omit }}'
-      state: started
+    - name: Start new container
+      docker_container:
+        name: mycontainer
+        image: myimage
+        state: started
+      when: source_changed
