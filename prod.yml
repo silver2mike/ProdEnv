@@ -82,7 +82,7 @@
   - name: Check if source changed
     set_fact:
       source_changed: False
-    when: image_info.id != myimage_id
+    when: image_info.ansible_facts.docker_image.Id != myimage_id
 
   - name: Update image id
     set_fact:
