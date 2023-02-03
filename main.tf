@@ -140,7 +140,7 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
   availability_zones        = [data.aws_availability_zones.az.names[0], data.aws_availability_zones.az.names[1]]
   health_check_type         = "ELB"
   load_balancers            = [aws_elb.Stages_env_ELB.name]
-  health_check_grace_period = 30
+  health_check_grace_period = 60
   
   dynamic "tag" {
      for_each = {
