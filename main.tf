@@ -76,7 +76,7 @@ resource "aws_launch_template" "Prod_env_LT" {
   instance_type         = "t2.micro"
   security_group_names  = [aws_security_group.Prod_env_SG.name]
   key_name              = "us-east-11"
-  # user_data            = filebase64("user_data.sh")
+  user_data            = filebase64("user_data.sh")
   lifecycle {
     create_before_destroy = true
   }
