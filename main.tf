@@ -113,7 +113,7 @@ resource "aws_launch_template" "Prod_env_LT" {
   name_prefix           = "ProdWebServer-"
   image_id              = data.aws_ami.latest_amazon_linux.id
   instance_type         = "t2.micro"
-  security_group_names  = [aws_security_group.Stages_env_SG.name]
+  security_group_names  = [aws_security_group.Stages_env.name]
   key_name              = "us-east-11"
   user_data            = filebase64("user_data.sh")
   lifecycle {
@@ -164,7 +164,7 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
 resource "aws_elb" "Stages_env_ELB" {
     name = "Prod-ELB"
     availability_zones = [data.aws_availability_zones.az.names[0], data.aws_availability_zones.az.names[1]]
-    security_groups = [aws_security_group.load_balancer.id]
+    security_groups = [aws_security_group.LB.id]
     listener {
         lb_port             = 80
         lb_protocol         = "http"
