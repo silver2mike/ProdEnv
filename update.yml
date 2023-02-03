@@ -20,6 +20,7 @@
       name: mikedzn/epam_dev:latest
       state: present
       source: pull
+      no_cache: yes
       force_source: yes
 
   - name: Start a new container based on the latest image
