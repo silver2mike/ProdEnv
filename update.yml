@@ -15,6 +15,7 @@
       name: mikedzn/epam_dev
       state: present
       source: pull
+      force: yes
 
   - name: Stop and remove existing Docker Container
     docker_image:
