@@ -179,6 +179,6 @@ resource "null_resource" "LB" {
   }
 
   provisioner "local-exec" {
-    command = "export TF_LB=${aws_elb.Prod_env_ELB.dns_name}"
+    command = "export TF_LB=aws_elb.Prod_env_ELB.dns_name"
   }
 }
