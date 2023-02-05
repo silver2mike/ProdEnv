@@ -26,7 +26,8 @@ pipeline {
 	        		sh '''
 	            		terraform init -no-color
            			terraform apply --auto-approve -no-color
-           			echo "123 $TF_LB"
+				LBV=$TF_LB
+           			echo "123 $LBV"
 				'''
 				
 	       		}
