@@ -52,8 +52,9 @@ pipeline {
 			}
 		}
 //		Terraform other actions
-    	stage('AWS Env Test by Terraform') {
-			def LB
+    	def LB
+	stage('AWS Env Test by Terraform') {
+			
 			when {
                	expression { 
            			return params.CHOICE == 'validate' || params.CHOICE == 'plan'
