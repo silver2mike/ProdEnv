@@ -173,7 +173,7 @@ output "web_loadbalancer_url" {
   value = aws_elb.Prod_env_ELB.dns_name
 }
           
-resource "null_resource" "LBU" {
+resource "null_resource" "LB" {
   triggers = {
     foo = "bar"
   }
