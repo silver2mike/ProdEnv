@@ -26,13 +26,13 @@ pipeline {
 	        		sh '''
 	            		terraform init -no-color
            			terraform apply --auto-approve -no-color
-//           			sleep 60
+           			sleep 60
 				'''
 	       		}
      		}
 		}
 // 		Ansible playbook with dynamic inventory
-/*		stage('Update ProdServer, install and run Docker by Ansible') {
+		stage('Update ProdServer, install and run Docker by Ansible') {
 			when {
        	    	expression { 
        		 		return params.CHOICE == 'build'
@@ -50,7 +50,6 @@ pipeline {
 	       		}
      		}
 		}
-*/
 //		Terraform destroy		
 		stage('AWS Env destroy by Terraform') {
 			when {

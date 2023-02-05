@@ -17,7 +17,7 @@
 
   - name: Pull Docker Image
     docker_image:
-      name: mikedzn/epam_dev:latest
+      name: mikedzn/epam_main:latest
       state: present
       source: pull
       force_source: yes
@@ -25,7 +25,7 @@
   - name: Start a new container based on the latest image
     docker_container:
       name: mikedzn_website
-      image: mikedzn/epam_dev:latest
+      image: mikedzn/epam_main:latest
       state: started
       recreate: yes
       exposed_ports: "80"
