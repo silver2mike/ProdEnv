@@ -180,6 +180,8 @@ resource "null_resource" "LB" {
 
   provisioner "local-exec" {
     command = "echo ${aws_elb.Prod_env_ELB.dns_name} > ex.txt"
-    command = "echo aws_elb.Prod_env_ELB.dns_name >> ex.txt"
+  }
+  provisioner "local-exec" {
+    command = "echo $aws_elb.Prod_env_ELB.dns_name >> ex.txt"
   }
 }
