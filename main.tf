@@ -76,7 +76,7 @@ resource "aws_security_group_rule" "SSH" {
     from_port = 22
     to_port = 22
     protocol = "tcp"
-    cidr_block = ["0.0.0.0/0"]
+    cidr_blocks = ["0.0.0.0/0"]
     security_group_id = aws_security_group.Prod_Env.id
 }
 resource "aws_security_group_rule" "Outbound" {
