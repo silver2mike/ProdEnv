@@ -172,3 +172,13 @@ resource "aws_elb" "Prod_env_ELB" {
 output "web_loadbalancer_url" {
   value = aws_elb.Prod_env_ELB.dns_name
 }
+
+resource "null_resource" "LB" {
+  triggers = {
+    foo = "bar"
+  }
+
+  provisioner "local-exec" {
+    command = "export TF_LB=${aws_elb.Prod_env_ELB.dns_name}"
+  }
+}
