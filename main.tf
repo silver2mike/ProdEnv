@@ -178,17 +178,6 @@ resource "null_resource" "LBO" {
     foo = "bar"
   }
   provisioner "local-exec" {
-    command = "echo aws_elb.Prod_env_ELB.dns_name > ex.txt"
+    command = "echo ${aws_elb.Prod_env_ELB.dns_name} >> lb.txt"
   }
-
-  provisioner "local-exec" {
-    command = "echo ${aws_elb.Prod_env_ELB.dns_name} >> ex.txt"
-  }
-  provisioner "local-exec" {
-    command = "echo $aws_elb.Prod_env_ELB.dns_name >> ex.txt"
-  }
-  provisioner "local-exec" {
-    command = "export TF_VAR=${aws_elb.Prod_env_ELB.dns_name}"
-  }
-
 }
