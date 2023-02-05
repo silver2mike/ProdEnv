@@ -87,6 +87,33 @@ resource "aws_security_group_rule" "Outbound" {
     cidr_blocks = ["0.0.0.0/0"]
     security_group_id = aws_security_group.Prod_Env.id
 }
+
+#resource "aws_security_group" "Prod_env_SG" {
+##  name = "Stages SG"
+#                                                              
+##  dynamic "ingress" {
+#      for_each = ["80", "22"]
+#      content {
+#            from_port   = ingress.value
+#            to_port     = ingress.value
+#            protocol    = "tcp"
+#            cidr_blocks = [aws_security_group.load_balancer.cidr_block]
+#      }
+#    
+#  }
+##  
+#  egress {
+#    from_port   = 0
+#    to_port     = 0
+#    protocol    = "-1"
+#    cidr_blocks = ["0.0.0.0/0"]
+#  }
+#  tags = {
+##    Name        = "Stages Environment"
+#    Owner       = "Mykhailo P"
+#  }
+#}
+
 # Launch template - Prod_env_LC
 #-------------------------------------------------------------------
 
