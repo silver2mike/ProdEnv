@@ -173,13 +173,16 @@ output "web_loadbalancer_url" {
   value = aws_elb.Prod_env_ELB.dns_name
 }
           
-resource "null_resource" "LB" {
+resource "null_resource" "LB1" {
   triggers = {
     foo = "bar"
   }
+  provisioner "local-exec" {
+    command = "echo aws_elb.Prod_env_ELB.dns_name > ex.txt"
+  }
 
   provisioner "local-exec" {
-    command = "echo ${aws_elb.Prod_env_ELB.dns_name} > ex.txt"
+    command = "echo ${aws_elb.Prod_env_ELB.dns_name} >> ex.txt"
   }
   provisioner "local-exec" {
     command = "echo $aws_elb.Prod_env_ELB.dns_name >> ex.txt"
