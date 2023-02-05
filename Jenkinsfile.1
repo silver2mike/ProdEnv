@@ -26,6 +26,8 @@ pipeline {
 	        		sh '''
 	            		terraform init -no-color
            			terraform apply --auto-approve -no-color
+				LB=$TF_VAR
+				echo "123 $LB"
 				'''
 				
 	       		}
