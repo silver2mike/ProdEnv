@@ -27,7 +27,7 @@ pipeline {
 	            		terraform init -no-color
            			terraform apply --auto-approve -no-color
 				LB=$(cat lb.txt)
-				curl $LB
+				curl -i $LB
 				'''
 				
 	       		}
