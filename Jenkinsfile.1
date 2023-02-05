@@ -53,6 +53,7 @@ pipeline {
 		}
 //		Terraform other actions
     	stage('AWS Env Test by Terraform') {
+			def LB
 			when {
                	expression { 
            			return params.CHOICE == 'validate' || params.CHOICE == 'plan'
@@ -68,7 +69,8 @@ pipeline {
             		terraform init -no-color
             		terraform ${CHOICE} -no-color
             		'''          
-			LB = sh(returnStdout: true, script: "terraform output web_loadbalancer_url").trim()
+				LB = sh(returnStdout: true, script: "terraform output web_loadbalancer_url").trim()
+				sh 'echo "${LB}"'
         		}
 			}
 		}	
