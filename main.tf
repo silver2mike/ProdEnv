@@ -25,7 +25,7 @@ data "aws_availability_zones" "az" {}
 
 
 data "aws_vpc" "def" {
-  is_default = true
+  default = true
 //  id = var.vpc_id
 }
 
