@@ -22,7 +22,9 @@ terraform {
 data "aws_availability_zones" "az" {}
 
 # Find out subnets
-data "aws_subnet_ids" "subnets" {}
+data "aws_subnet_ids" "subnets" {
+    vpc.id = "vpc-07f4b6fbd9443dac4"
+}
 
 # Find out the latest version of AMI 
 data "aws_ami" "latest_amazon_linux" {
