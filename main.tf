@@ -21,9 +21,12 @@ terraform {
 # Find out a list of AZ
 data "aws_availability_zones" "az" {}
 
+
+data "aws_vpc" "vpc" {}
+
 # Find out subnets
 data "aws_subnet_ids" "subnets" {
-    vpc.id = "vpc-07f4b6fbd9443dac4"
+    vpc.id = data.aws_vpc.vpc.id
 }
 
 # Find out the latest version of AMI 
