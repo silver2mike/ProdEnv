@@ -171,7 +171,7 @@ resource "aws_lb" "Prod_env_ELB" {
     internal = false
 //    availability_zones = [data.aws_availability_zones.az.names[0], data.aws_availability_zones.az.names[1]]
     security_groups = [aws_security_group.LB.id]
-    subnets = [data.aws_subnet_ids.def_sub.ids[0]]
+    subnets = [data.aws_subnets.def_sub.ids[0]]
 #    listener {
 #        lb_port             = 80
 #        lb_protocol         = "http"
