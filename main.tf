@@ -30,7 +30,7 @@ data "aws_vpc" "vpc" {
 
 # Find out subnets
 data "aws_subnet_ids" "subnets" {
-  vpc.id = data.aws_vpc.vpc.id
+  vpc_id = data.aws_vpc.vpc.id
 }
 
 # Find out the latest version of AMI 
