@@ -94,9 +94,9 @@ resource "aws_lb_target_group" "LBTG" {
   vpc_id   = data.aws_vpc.def.id
   health_check {
       healthy_threshold   = "3"
-      interval            = "20"
+      interval            = "30"
       unhealthy_threshold = "2"
-      timeout             = "20"
+      timeout             = "10"
       path                = "/"
       port                = "80"
   }
