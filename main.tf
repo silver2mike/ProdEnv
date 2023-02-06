@@ -29,9 +29,17 @@ data "aws_vpc" "def" {
 //  id = var.vpc_id
 }
 
+output "w1" {
+  value = aws_vpc.def.id
+}
+
 # Find out subnets
-data "aws_subnet_ids" "def_sub" {
+data "aws_subnets" "def_sub" {
   vpc_id = data.aws_vpc.def.id
+}
+
+output "w2" {
+  value = aws_subnets.def_sub.id
 }
 
 # Find out the latest version of AMI 
@@ -155,7 +163,7 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
 # Elastic Load Balancer
 #--------------------------------------------
 
-resource "aws_lb" "Prod_env_LB" {
+resource "aws_lb" "Prod_env_ELB" {
     name = "Prod-ELB"
     load_balancer_type = "application"
     internal = false
