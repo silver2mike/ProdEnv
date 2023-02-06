@@ -26,11 +26,12 @@ pipeline {
 	        		sh '''
 	            		terraform init -no-color
            			terraform apply --auto-approve -no-color
-				sleep 90
+				'''
+/*				sleep 90
 				LB=$(cat lb.txt)
 				curl -i $LB > curl.txt
 				grep 'HTTP' curl.txt | awk '{print $2}'
-				'''
+*/				
 				
 	       		}
      		}
