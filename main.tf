@@ -34,7 +34,8 @@ data "aws_subnets" "def_sub" {
   }
 }
 
-data "aws_lb_target_group" "target" {
+#data "aws_lb_target_group" "target" {
+#  name = aws_lb_
 #  arn  = var.lb_tg_arn
 #  name = var.lb_tg_name
 }
@@ -138,7 +139,7 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
   #vpc_zone_identifier       = [aws_default_subnet.default_az1.id, aws_default_subnet.default_az2.id]
   availability_zones        = [data.aws_availability_zones.az.names[0], data.aws_availability_zones.az.names[1]]
   health_check_type         = "ELB"
-  target_group_arns	=   [data.aws_lb_target_group.target.arn]
+  target_group_arns	=   [aws_lb_target_group.LBTG.arn]
 //  load_balancers            = [aws_lb.Prod_env_ELB.name]
   health_check_grace_period = 90
   
