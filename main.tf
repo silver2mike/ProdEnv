@@ -146,8 +146,11 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
 resource "aws_lb" "Prod_env_ELB" {
     name = "Prod-ELB"
     load_balancer_type = "application"
-    availability_zones = [data.aws_availability_zones.az.names[0], data.aws_availability_zones.az.names[1]]
+    internal = false
+//    availability_zones = [data.aws_availability_zones.az.names[0], data.aws_availability_zones.az.names[1]]
     security_groups = [aws_security_group.LB.id]
+    subnets = [for subnet in aws_subnet.public : subnet.id]
+/*
     listener {
         lb_port             = 80
         lb_protocol         = "http"
@@ -161,7 +164,7 @@ resource "aws_lb" "Prod_env_ELB" {
         target              = "HTTP:80/"
         interval            = 10
     }
-
+*/
     tags = {
         Name = "Prod Environment"
     }
