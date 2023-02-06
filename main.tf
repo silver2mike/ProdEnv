@@ -145,7 +145,7 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
 # Elastic Load Balancer
 #--------------------------------------------
 
-resource "aws_lb" "Prod_env_ELB" {
+resource "aws_lb" "Prod_env_LB" {
     name = "Prod-ELB"
     load_balancer_type = "application"
     internal = false
