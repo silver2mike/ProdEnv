@@ -133,7 +133,7 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
   #vpc_zone_identifier       = [aws_default_subnet.default_az1.id, aws_default_subnet.default_az2.id]
   availability_zones        = [data.aws_availability_zones.az.names[0], data.aws_availability_zones.az.names[1]]
   health_check_type         = "ELB"
-  target_group_arns	= 
+//  target_group_arns	= 
 //  load_balancers            = [aws_lb.Prod_env_ELB.name]
   health_check_grace_period = 90
   
