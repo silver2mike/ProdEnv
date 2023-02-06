@@ -24,16 +24,14 @@ pipeline {
     	  		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
       			secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 	        		sh '''
-	            		terraform init -no-color
+	            	terraform init -no-color
            			terraform apply --auto-approve -no-color
-				'''
-				sleep 60
-				LB=$(cat lb.txt)
-				curl -i $LB > curl.txt
-				grep 'HTTP' curl.txt | awk '{print $2}'
-				
-				
-	       		}
+					sleep 60
+					LB=$(cat lb.txt)
+					curl -i $LB > curl.txt
+					grep 'HTTP' curl.txt | awk '{print $2}'
+					'''
+				}
      		}
 		}
 //		Terraform destroy		
