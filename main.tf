@@ -38,7 +38,7 @@ data "aws_subnets" "def_sub" {
 #  name = aws_lb_
 #  arn  = var.lb_tg_arn
 #  name = var.lb_tg_name
-}
+#}
 
 # Find out the latest version of AMI 
 data "aws_ami" "latest_amazon_linux" {
