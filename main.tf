@@ -121,7 +121,7 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
   #vpc_zone_identifier       = [aws_default_subnet.default_az1.id, aws_default_subnet.default_az2.id]
   availability_zones        = [data.aws_availability_zones.az.names[0], data.aws_availability_zones.az.names[1]]
   health_check_type         = "ELB"
-  load_balancers            = [aws_elb.Prod_env_ELB.name]
+  load_balancers            = [aws_lb.Prod_env_ELB.name]
   health_check_grace_period = 90
   
   dynamic "tag" {
@@ -143,8 +143,9 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
 # Elastic Load Balancer
 #--------------------------------------------
 
-resource "aws_elb" "Prod_env_ELB" {
+resource "aws_lb" "Prod_env_ELB" {
     name = "Prod-ELB"
+    load_balancer_type = "application"
     availability_zones = [data.aws_availability_zones.az.names[0], data.aws_availability_zones.az.names[1]]
     security_groups = [aws_security_group.LB.id]
     listener {
@@ -170,7 +171,7 @@ resource "aws_elb" "Prod_env_ELB" {
 #--------------------------------------------
 
 output "web_loadbalancer_url" {
-  value = aws_elb.Prod_env_ELB.dns_name
+  value = aws_lb.Prod_env_ELB.dns_name
 }
           
 resource "null_resource" "LB" {
@@ -178,6 +179,6 @@ resource "null_resource" "LB" {
     foo = "bar"
   }
   provisioner "local-exec" {
-    command = "echo ${aws_elb.Prod_env_ELB.dns_name} > lb.txt"
+    command = "echo ${aws_lb.Prod_env_ELB.dns_name} > lb.txt"
   }
 }
