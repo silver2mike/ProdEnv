@@ -18,15 +18,19 @@ terraform {
   }
 }
 
+variable "vpc_id" {}
+
 # Find out a list of AZ
 data "aws_availability_zones" "az" {}
 
 
-data "aws_vpc" "vpc" {}
+data "aws_vpc" "vpc" {
+  id = var.vpc_id
+}
 
 # Find out subnets
 data "aws_subnet_ids" "subnets" {
-    vpc.id = data.aws_vpc.vpc.id
+  vpc.id = data.aws_vpc.vpc.id
 }
 
 # Find out the latest version of AMI 
