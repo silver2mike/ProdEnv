@@ -219,8 +219,7 @@ resource "aws_lb_target_group_attachment"
 
 # Listener for HTTP traffic on ALB
 resource "aws_lb_listener" "lb_listener_http" {
-   for_each             = aws_lb.Prod_env_ELB.name
-   load_balancer_arn    = aws_lb.Prod_env_ELB.id
+   load_balancer_arn    = aws_lb.Prod_env_ELB.arn
    port                 = "80"
    protocol             = "HTTP"
    default_action {
