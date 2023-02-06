@@ -22,7 +22,9 @@ terraform {
 data "aws_availability_zones" "az" {}
 
 # Find out subnets
-data "aws_subnet" "subnets" {}
+data "aws_subnet_ids" "subnets" {
+  vpc_id = var.vpc_id
+}
 
 # Find out the latest version of AMI 
 data "aws_ami" "latest_amazon_linux" {
@@ -151,7 +153,7 @@ resource "aws_lb" "Prod_env_ELB" {
     internal = false
 //    availability_zones = [data.aws_availability_zones.az.names[0], data.aws_availability_zones.az.names[1]]
     security_groups = [aws_security_group.LB.id]
-    subnets = [data.aws_subnet.subnets.id[0], data.aws_subnet.subnets.id[1]]
+    subnets = [data.aws_subnet_ids.subnets.ids[0], data.aws_subnet_ids.subnets.ids[1]]
 /*
     listener {
         lb_port             = 80
