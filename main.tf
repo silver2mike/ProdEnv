@@ -19,11 +19,12 @@ terraform {
 }
 
 # Find out a list of AZ
-
 data "aws_availability_zones" "az" {}
 
-# Find out the latest version of AMI 
+# Find out subnets
+data "aws_subnets" "subnets" {}
 
+# Find out the latest version of AMI 
 data "aws_ami" "latest_amazon_linux" {
   owners        = ["amazon"]
   most_recent   = true
@@ -34,6 +35,7 @@ data "aws_ami" "latest_amazon_linux" {
   }
 }
 
+#-------------------------------------------------------------------
 #   Resources creation
 #-------------------------------------------------------------------
 
@@ -149,7 +151,7 @@ resource "aws_lb" "Prod_env_ELB" {
     internal = false
 //    availability_zones = [data.aws_availability_zones.az.names[0], data.aws_availability_zones.az.names[1]]
     security_groups = [aws_security_group.LB.id]
-    subnets = [for subnet in aws_subnet.public : subnet.id]
+    subnets = [data.aws_subnets.subnets.id[0], data.aws_subnets.subnets.id[1]]
 /*
     listener {
         lb_port             = 80
