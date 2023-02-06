@@ -128,12 +128,13 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
   name                      = "AGS-${aws_launch_template.Prod_env_LT.name}"
   #name_prefix               = "ASG-"
   max_size                  = 4
-  min_size                  = 1
-  desired_capacity          = 1
+  min_size                  = 0
+  desired_capacity          = 0
   #vpc_zone_identifier       = [aws_default_subnet.default_az1.id, aws_default_subnet.default_az2.id]
   availability_zones        = [data.aws_availability_zones.az.names[0], data.aws_availability_zones.az.names[1]]
   health_check_type         = "ELB"
-  load_balancers            = [aws_lb.Prod_env_ELB.name]
+  target_group_arns	= 
+//  load_balancers            = [aws_lb.Prod_env_ELB.name]
   health_check_grace_period = 90
   
   dynamic "tag" {
@@ -151,6 +152,16 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
     create_before_destroy = true
   }
 }
+
+# Load Balancer
+#--------------------------------------------
+resource "aws_lb_target_group" "LBTG" {
+  name     = "LB-TG"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = data.aws_vpc.def.id
+}
+
 
 # Load Balancer
 #--------------------------------------------
