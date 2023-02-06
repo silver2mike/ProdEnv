@@ -159,16 +159,6 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
   }
 }
 
-# Target Group
-#--------------------------------------------
-resource "aws_lb_target_group" "LBTG" {
-  name     = "LB-TG"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = data.aws_vpc.def.id
-}
-
-
 # Load Balancer
 #--------------------------------------------
 
@@ -178,6 +168,7 @@ resource "aws_lb" "Prod_env_ELB" {
     internal = false
     security_groups = [aws_security_group.LB.id]
     subnets = [data.aws_subnets.def_sub.ids[0], data.aws_subnets.def_sub.ids[1]]
+    enable_cross_zone_load_balancing = "true"
 #    listener {
 #        lb_port             = 80
 #        lb_protocol         = "http"
@@ -197,6 +188,47 @@ resource "aws_lb" "Prod_env_ELB" {
     }
 }
 
+# Target Group
+#--------------------------------------------
+resource "aws_lb_target_group" "LBTG" {
+  name     = "LB-TG"
+  target_type = "instance"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = data.aws_vpc.def.id
+  health_check {
+      healthy_threshold   = "3"
+      interval            = "20"
+      unhealthy_threshold = "2"
+      timeout             = "10"
+      path                = "/"
+      port                = "80"
+  }
+}
+
+# Attach the target group for ALB
+/*
+resource "aws_lb_target_group_attachment"
+  tg_attachment_test" {
+    target_group_arn = [aws_lb_target_group.LBTG.arn]
+    target_id        = "i-0cbbbbbbbb12f"
+    port             = 80
+}
+
+*/
+
+# Listener for HTTP traffic on ALB
+resource "aws_lb_listener" "lb_listener_http" {
+   for_each             = aws_lb.Prod_env_ELB.name
+   load_balancer_arn    = aws_lb.Prod_env_ELB.id
+   port                 = "80"
+   protocol             = "HTTP"
+   default_action {
+    target_group_arn = aws_lb_target_group.LBTG.arn
+    type             = "forward"
+  }
+}
+
 # LB URL Output
 #--------------------------------------------
 
@@ -204,7 +236,7 @@ output "loadbalancer_url" {
   value = aws_lb.Prod_env_ELB.dns_name
 }
           
-resource "null_resource" "LB1" {
+resource "null_resource" "LB" {
   triggers = {
     foo = "bar"
   }
