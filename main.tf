@@ -35,11 +35,11 @@ output "w1" {
 
 # Find out subnets
 data "aws_subnets" "def_sub" {
-  vpc_id = data.aws_vpc.def.id
+  id = data.aws_vpc.def.id
 }
 
 output "w2" {
-  value = aws_subnets.def_sub.id
+  value = aws_subnets.def_sub.ids
 }
 
 # Find out the latest version of AMI 
