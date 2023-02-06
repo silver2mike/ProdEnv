@@ -18,19 +18,12 @@ terraform {
   }
 }
 
-// variable "vpc_id" {}
-
 # Find out a list of AZ
 data "aws_availability_zones" "az" {}
 
 
 data "aws_vpc" "def" {
   default = true
-//  id = var.vpc_id
-}
-
-output "w1" {
-  value = data.aws_vpc.def.id
 }
 
 # Find out subnets
@@ -39,9 +32,6 @@ data "aws_subnets" "def_sub" {
     name   = "vpc-id"
     values = [data.aws_vpc.def.id]
   }
-}
-output "w2" {
-  value = data.aws_subnets.def_sub.ids
 }
 
 # Find out the latest version of AMI 
@@ -162,14 +152,13 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
   }
 }
 
-# Elastic Load Balancer
+# Load Balancer
 #--------------------------------------------
 
 resource "aws_lb" "Prod_env_ELB" {
     name = "Prod-ELB"
     load_balancer_type = "application"
     internal = false
-//    availability_zones = [data.aws_availability_zones.az.names[0], data.aws_availability_zones.az.names[1]]
     security_groups = [aws_security_group.LB.id]
     subnets = [data.aws_subnets.def_sub.ids[0], data.aws_subnets.def_sub.ids[1]]
 #    listener {
@@ -194,11 +183,11 @@ resource "aws_lb" "Prod_env_ELB" {
 # LB URL Output
 #--------------------------------------------
 
-output "web_loadbalancer_url" {
+output "loadbalancer_url" {
   value = aws_lb.Prod_env_ELB.dns_name
 }
           
-resource "null_resource" "LB" {
+resource "null_resource" "LB1" {
   triggers = {
     foo = "bar"
   }
