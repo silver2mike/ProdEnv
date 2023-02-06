@@ -121,7 +121,7 @@ output "loadbalancer_url" {
   value = aws_lb.Prod_env_ELB.dns_name
 }
           
-resource "null_resource" "LB" {
+resource "null_resource" "LBA" {
   triggers = {
     foo = "bar"
   }
