@@ -78,7 +78,7 @@ resource "aws_lb" "Prod_env_ELB" {
     internal = false
     security_groups = [aws_security_group.LB.id]
 //    subnets = [data.aws_subnets.def_sub.ids[0], data.aws_subnets.def_sub.ids[1]]
-    subnets = data.aws_subnets.def_sub.id[*]
+    subnets = data.aws_subnets.def_sub.ids[*]
     enable_cross_zone_load_balancing = "true"
     tags = {
         Name = "Prod Environment"
