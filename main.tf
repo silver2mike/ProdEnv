@@ -50,7 +50,7 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
   desired_capacity          = 1
   availability_zones        = [data.aws_availability_zones.az.names[0], data.aws_availability_zones.az.names[1]]
   health_check_type         = "ELB"
-  target_group_arns	=   [aws_lb_target_group.LBTG.arn]
+  target_group_arns	        = [aws_lb_target_group.LBTG.arn]
   health_check_grace_period = 60
   
   dynamic "tag" {
@@ -77,7 +77,8 @@ resource "aws_lb" "Prod_env_ELB" {
     load_balancer_type = "application"
     internal = false
     security_groups = [aws_security_group.LB.id]
-    subnets = [data.aws_subnets.def_sub.ids[0], data.aws_subnets.def_sub.ids[1]]
+//    subnets = [data.aws_subnets.def_sub.ids[0], data.aws_subnets.def_sub.ids[1]]
+    subnets = [data.aws_subnets.def_sub.ids]
     enable_cross_zone_load_balancing = "true"
     tags = {
         Name = "Prod Environment"
@@ -109,8 +110,8 @@ resource "aws_lb_listener" "lb_listener_http" {
    port                 = "80"
    protocol             = "HTTP"
    default_action {
-    target_group_arn = aws_lb_target_group.LBTG.arn
-    type             = "forward"
+   target_group_arn = aws_lb_target_group.LBTG.arn
+   type             = "forward"
   }
 }
 
