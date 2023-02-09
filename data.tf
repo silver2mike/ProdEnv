@@ -1,4 +1,3 @@
-
 # Find out a list of AZ
 data "aws_availability_zones" "az" {}
 
@@ -15,7 +14,7 @@ data "aws_subnets" "def_sub" {
 }
 
 # Find out the latest version of AMI 
-data "aws_ami" "latest_amazon_linux" {
+data "aws_ami" "latest_ubuntu" {
   owners        = ["amazon"]
   most_recent   = true
   filter {

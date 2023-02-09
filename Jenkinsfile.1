@@ -26,7 +26,7 @@ pipeline {
 	        		sh '''
 	            	terraform init -no-color
            			terraform apply --auto-approve -no-color
-					sleep 60
+					sleep 5
 					LB=$(cat lb.txt)
 					curl -i $LB | grep 'HTTP' | awk '{print $2}'
 					rm lb.txt

@@ -1,2 +1,0 @@
-the second dev MVP
-
