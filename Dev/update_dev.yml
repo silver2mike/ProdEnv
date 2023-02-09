@@ -3,6 +3,7 @@
 ---
 - name: "AWS - Install docker"
   gather_facts: no
+  hosts: Dev_instance
   become: yes
   vars:
     ansible_python_interpreter: /usr/bin/python3  
