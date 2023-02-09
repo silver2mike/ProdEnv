@@ -15,7 +15,7 @@ pipeline {
     	  		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
       			secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 	        		sh '''
-           			ansible-playbook --private-key=$ANSIBLE_PK -i Dev/host.dev Dev/update_dev.yml
+           			ansible-playbook --private-key=$ANSIBLE_PK -i Dev/dev.ini Dev/update_dev.yml
 				'''
 	       		}
      		}
