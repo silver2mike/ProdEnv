@@ -24,9 +24,10 @@ pipeline {
     	  		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
       			secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 	        		sh '''
+					cd TF
 	            	terraform init -no-color
            			terraform apply --auto-approve -no-color
-					sleep 5
+					sleep 30
 					LB=$(cat lb.txt)
 					curl -i $LB | grep 'HTTP' | awk '{print $2}'
 					rm lb.txt
@@ -48,6 +49,7 @@ pipeline {
           		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
           		secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
             		sh '''
+					cd TF
             		terraform init -no-color
             		terraform ${CHOICE} --auto-approve -no-color
             		'''          
@@ -69,6 +71,7 @@ pipeline {
           		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
           		secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
             		sh '''
+					cd TF
             		terraform init -no-color
             		terraform ${CHOICE} -no-color
             		'''          
