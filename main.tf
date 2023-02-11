@@ -65,11 +65,11 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
      }
   }
   */
-  tags {
-    Name     = "Prod Environment"
-    Owner    = "Mykhailo P"   
+  tag {
+    key                   = "Name"
+    value                 = "Prod Environment"
+    propagate_at_launch   = true
   }
-
   lifecycle {
     create_before_destroy = true
   }
