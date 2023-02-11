@@ -51,20 +51,7 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
   availability_zones        = [data.aws_availability_zones.az.names[0], data.aws_availability_zones.az.names[1]]
   health_check_type         = "ELB"
   target_group_arns	        = [aws_lb_target_group.LBTG.arn]
-  health_check_grace_period = 60
-  /*
-  dynamic "tag" {
-     for_each = {
-         Name     = "Prod Environment"
-         Owner    = "Mykhailo P"
-     }
-     content {
-        key                   = tag.key
-        value                 = tag.value
-        propagate_at_launch   = true
-     }
-  }
-  */
+//  health_check_grace_period = 60
   tag {
     key                   = "Name"
     value                 = "Prod Environment"
