@@ -37,7 +37,7 @@ pipeline {
 */
 					script {
 						def LB = readFile(file: 'TF/lb.txt')
-          				def response = httpRequest 'http://${LB}'
+          				def response = httpRequest 'http://${LB}',  validResponseCodes: '200:599'
           				while (response.status != 200) {
             				sleep 10 // wait for 10 seconds before trying again
             				response = httpRequest 'http://${LB}'
