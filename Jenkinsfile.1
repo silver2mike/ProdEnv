@@ -45,13 +45,13 @@ pipeline {
 					curl -i $LB | grep 'HTTP' | awk '{print $2}'
 					rm lb.txt
 */
+					office365ConnectorSend webhookUrl: "https://xclouduae.webhook.office.com/webhookb2/bf73b366-7e43-452c-beee-46ccad2ec03b@1fbd1973-996d-42dd-a3a4-0c8cd76c556e/IncomingWebhook/793d2062b4bc47108d0adaae55b94266/91a922c9-a9d8-43e7-9520-4880a959490b", message: "TEST"
 					script {
 						def LB = readFile(file: 'TF/lb.txt')
           				def response = httpRequest url: "http://${LB}",  validResponseCodes: '200:599'
           				while (response.status != 200) {
             				sleep 10 // wait for 10 seconds before trying again
             				response = httpRequest url: "http://${LB}",  validResponseCodes: '200:599'
-						office365ConnectorSend webhookUrl: "https://xclouduae.webhook.office.com/webhookb2/bf73b366-7e43-452c-beee-46ccad2ec03b@1fbd1973-996d-42dd-a3a4-0c8cd76c556e/IncomingWebhook/793d2062b4bc47108d0adaae55b94266/91a922c9-a9d8-43e7-9520-4880a959490b", message: "http://${LB}"
           				}
         			}
 						
