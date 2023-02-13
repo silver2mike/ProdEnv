@@ -12,7 +12,7 @@ pipeline {
 	options {
         office365ConnectorWebhooks([
             [name: "Office 365", url: "https://xclouduae.webhook.office.com/webhookb2/bf73b366-7e43-452c-beee-46ccad2ec03b@1fbd1973-996d-42dd-a3a4-0c8cd76c556e/IncomingWebhook/793d2062b4bc47108d0adaae55b94266/91a922c9-a9d8-43e7-9520-4880a959490b", 
-			notifyBackToNormal: true, notifyFailure: true, 
+			notifyBackToNormal: false, notifyFailure: true, 
 			notifyRepeatedFailure: true, notifySuccess: true, notifyAborted: true]
         ])
     }
@@ -33,7 +33,7 @@ pipeline {
     	  		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
       			secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 	        		sh '''
-					cd TF
+					cd TF1
 	            	terraform init -no-color
            			terraform apply --auto-approve -no-color
 					'''
