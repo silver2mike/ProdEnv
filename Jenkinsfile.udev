@@ -1,4 +1,4 @@
-// Update artefack version if new uploaded to DockerHub
+// DEV update build version if new uploaded to DockerHub
 
 pipeline {
 	agent {label 'Ansible'}
