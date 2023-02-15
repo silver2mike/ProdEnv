@@ -96,7 +96,7 @@ pipeline {
           		secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
             		sh '''
 					cd TF1
-            		terraform init -no-color
+            		terraform init -no-color -reconfigure
             		terraform ${CHOICE} -no-color
             		'''          
         		}
