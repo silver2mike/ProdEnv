@@ -36,7 +36,7 @@ pipeline {
     	  		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
       			secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 	        		sh '''
-					cd TF1
+					cd TFN
 	            	terraform init -no-color
            			terraform apply --auto-approve -no-color
 					'''
@@ -73,7 +73,7 @@ pipeline {
           		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
           		secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
             		sh '''
-					cd TF1
+					cd TFN
             		terraform init -no-color
             		terraform ${CHOICE} --auto-approve -no-color
             		'''          
