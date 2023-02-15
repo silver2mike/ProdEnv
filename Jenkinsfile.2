@@ -32,11 +32,11 @@ pipeline {
     		steps {
         		withCredentials([[
          		$class:            'AmazonWebServicesCredentialsBinding', 
-	     		credentialsId:     'AWS_Terraform', 
+	     		credentialsId:     'AWS_Terraform_new', 
     	  		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
       			secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 	        		sh '''
-					cd TF
+					cd TF1
 	            	terraform init -no-color
            			terraform apply --auto-approve -no-color
 					'''
@@ -48,7 +48,7 @@ pipeline {
 */
 
 					script {
-						def LB = readFile(file: 'TF/lb.txt')
+						def LB = readFile(file: 'TF1/lb.txt')
           				def response = httpRequest url: "http://${LB}",  validResponseCodes: '200:599'
           				while (response.status != 200) {
             				sleep 10 // wait for 10 seconds before trying again
@@ -69,11 +69,11 @@ pipeline {
       		steps {
         		withCredentials([[
           		$class:            'AmazonWebServicesCredentialsBinding', 
-          		credentialsId:     'AWS_Terraform', 
+          		credentialsId:     'AWS_Terraform_new', 
           		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
           		secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
             		sh '''
-					cd TF
+					cd TF1
             		terraform init -no-color
             		terraform ${CHOICE} --auto-approve -no-color
             		'''          
@@ -91,11 +91,11 @@ pipeline {
       		steps {
         		withCredentials([[
           		$class:            'AmazonWebServicesCredentialsBinding', 
-          		credentialsId:     'AWS_Terraform', 
+          		credentialsId:     'AWS_Terraform_new', 
           		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
           		secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
             		sh '''
-					cd TF
+					cd TF1
             		terraform init -no-color
             		terraform ${CHOICE} -no-color
             		'''          
