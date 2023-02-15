@@ -8,16 +8,17 @@
 
 provider "aws" {
     region      = "us-east-1"
-
+/*
     assume_role {
       role_arn = "arn:aws:iam::725830428680:role/Terraform_from_mikedzn.aws"
 	    session_name = "Terraform"
     }
+*/
 }
      
 terraform {
   backend "s3" {
-    bucket     = "mikedzn-epam-tf-new"
+    bucket     = "mikedzn-epam-tf"
     key        = "prod_new/terraform.tfstate"
     region     = "us-east-1"
   }
