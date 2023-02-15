@@ -3,7 +3,7 @@
 pipeline {
 	agent {label 'Ansible'}
 	environment {
-    		ANSIBLE_PK = credentials('AWS-ProdServer-private-key')
+    		ANSIBLE_PK = credentials('AWS-Prod-New')
 	}
   	stages {
 // 		Ansible playbook with dynamic inventory
@@ -11,7 +11,7 @@ pipeline {
     		steps {
         		withCredentials([[
          		$class:            'AmazonWebServicesCredentialsBinding', 
-	     		credentialsId:     'AWS_EC2_Inventory', 
+	     		credentialsId:     'AWS_Terraform', 
     	  		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
       			secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 	        		sh '''
