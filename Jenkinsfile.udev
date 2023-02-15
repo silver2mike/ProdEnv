@@ -11,7 +11,7 @@ pipeline {
     		steps {
         		withCredentials([[
          		$class:            'AmazonWebServicesCredentialsBinding', 
-	     		credentialsId:     'AWS_Terraform', 
+	     		credentialsId:     'AWS_Terraform_new', 
     	  		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
       			secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 	        		sh '''
