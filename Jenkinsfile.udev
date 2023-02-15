@@ -9,15 +9,15 @@ pipeline {
 // 		Ansible playbook with dynamic inventory
 		stage('Update ProdServer, install and run Docker by Ansible') {
     		steps {
-        		withCredentials([[
-         		$class:            'AmazonWebServicesCredentialsBinding', 
-	     		credentialsId:     'AWS_Terraform_new', 
-    	  		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
-      			secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+//        		withCredentials([[
+//         		$class:            'AmazonWebServicesCredentialsBinding', 
+//	     		credentialsId:     'AWS_Terraform_new', 
+//    	  		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
+//      			secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 	        		sh '''
            			ansible-playbook --private-key=$ANSIBLE_PK -i Dev/dev.ini Dev/update_dev.yml
 				'''
-	       		}
+//	       		}
      		}
 		}
 	}
