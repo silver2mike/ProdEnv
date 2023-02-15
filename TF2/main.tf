@@ -8,12 +8,11 @@
 
 provider "aws" {
     region      = "us-east-1"
-/*
+
     assume_role {
       role_arn = "arn:aws:iam::725830428680:role/Terraform_from_mikedzn.aws"
 	    session_name = "Terraform"
     }
-*/
 }
      
 terraform {
