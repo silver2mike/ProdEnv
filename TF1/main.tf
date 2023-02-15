@@ -17,7 +17,7 @@ provider "aws" {
      
 terraform {
   backend "s3" {
-    bucket     = "arn:aws:s3:::mikedzn-epam-tf-new"
+    bucket     = "mikedzn-epam-tf-new"
     key        = "prod_new/terraform.tfstate"
     region     = "us-east-1"
   }
