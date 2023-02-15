@@ -10,7 +10,7 @@ pipeline {
     		ANSIBLE_PK = credentials('AWS-ProdServer-private-key')
 	}
 //
-
+/*
 	options {
         office365ConnectorWebhooks([
             [name: "Office 365", 
@@ -19,7 +19,7 @@ pipeline {
 			notifyRepeatedFailure: true, notifySuccess: true, notifyAborted: true]
 			])
     }
-
+*/
   	stages {
 // 		Terraform apply
 		stage('AWS Env Provisioning by Terraform') {
