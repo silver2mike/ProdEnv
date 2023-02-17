@@ -1,15 +1,16 @@
-// Actions with Production AWS Infrastructure (validate/plan/apply/destroy)
+// Actions with Production AWS Infrastructure (validate/plan/apply/destroy) 
+// ANOTHER AWS ACCOUNT
 
 pipeline {
 	agent {label 'Ansible'}
 	parameters {
 		choice choices: ['validate', 'plan', 'build', 'destroy'], name: "CHOICE"
   	}
-// check if it is needed
+/* check if it is needed
 	environment {
     		ANSIBLE_PK = credentials('AWS-ProdServer-private-key')
 	}
-//
+*/
 /*
 	options {
         office365ConnectorWebhooks([
@@ -48,7 +49,7 @@ pipeline {
 */
 
 					script {
-						def LB = readFile(file: 'TF1/lb.txt')
+						def LB = readFile(file: 'TFN/lb.txt')
           				def response = httpRequest url: "http://${LB}",  validResponseCodes: '200:599'
           				while (response.status != 200) {
             				sleep 10 // wait for 10 seconds before trying again

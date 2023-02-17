@@ -8,7 +8,7 @@ pipeline {
 	}
   	stages {
 // 		Ansible playbook with dynamic inventory
-		stage('Update ProdServer, install and run Docker by Ansible') {
+		stage('Update DevServer, install and run Docker by Ansible') {
     		steps {
 //        		withCredentials([[
 //         		$class:            'AmazonWebServicesCredentialsBinding', 
