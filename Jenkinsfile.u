@@ -3,7 +3,7 @@
 pipeline {
 	agent {label 'Ansible'}
 	environment {
-    		ANSIBLE_PK = credentials('AWS-ProdServer-private-key')
+    		ANSIBLE_PK = credentials('AWS-Prod-New')
 	}
   	stages {
 // 		Ansible playbook with dynamic inventory
