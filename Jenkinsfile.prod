@@ -38,7 +38,7 @@ pipeline {
 					'''
 					script {
 						def LB = readFile(file: 'TFN/lb.txt')
-          				def response = httpRequest url: "http://${LB}",  validResponseCodes: '200:599'
+          				def response = httpRequest url: "https://${LB}",  validResponseCodes: '200:599'
 
 						for (int count =1; count <= 10; count++) {
 							if (response.status == 200) {
