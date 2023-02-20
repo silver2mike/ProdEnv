@@ -56,7 +56,7 @@ pipeline {
             				response = httpRequest url: "http://${LB}",  validResponseCodes: '200:599'
           				}
         			}
-						
+				slackSend color: "good", message: "Message from Jenkins Pipeline"	
 				}
      		}
 		}
