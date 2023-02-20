@@ -79,6 +79,7 @@ pipeline {
             		terraform ${CHOICE} --auto-approve -no-color
             		'''          
         		}
+				slackSend color: "good", message: "Message from Jenkins Pipeline"
 			}
 		}
 //		Terraform other actions
