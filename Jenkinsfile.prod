@@ -6,11 +6,6 @@ pipeline {
 	parameters {
 		choice choices: ['validate', 'plan', 'build', 'destroy'], name: "CHOICE"
   	}
-/* check if it is needed
-	environment {
-    		ANSIBLE_PK = credentials('AWS-ProdServer-private-key')
-	}
-*/
 /*
 	options {
         office365ConnectorWebhooks([
@@ -41,21 +36,27 @@ pipeline {
 	            	terraform init -no-color
            			terraform apply --auto-approve -no-color
 					'''
-/*
-					sleep 60
-					LB=$(cat lb.txt)
-					curl -i $LB | grep 'HTTP' | awk '{print $2}'
-					rm lb.txt
-*/
-
 					script {
 						def LB = readFile(file: 'TFN/lb.txt')
           				def response = httpRequest url: "http://${LB}",  validResponseCodes: '200:599'
-          				while (response.status != 200) {
-            				sleep 10 // wait for 10 seconds before trying again
-            				response = httpRequest url: "http://${LB}",  validResponseCodes: '200:599'
-          				}
-        			slackSend color: "good", message: "The PROD ENV available on http://${LB}"
+
+						for (int count =1; count <= 10; count++) {
+							if (response.status == 200) {
+								slackSend color: "good", message: "The PROD ENV available on http://${LB}"
+								return 0
+							} else if (count == 10 && response.status != 200) {
+								slackSend color: "danger", message: "The PROD ENV UNAVAILABLE"
+								return 1
+							} else {
+								sleep 10
+							}
+						}
+//          				while (response.status != 200 || count < 10) {
+//            				sleep 10 // wait for 10 seconds before trying again
+//            				response = httpRequest url: "http://${LB}",  validResponseCodes: '200:599'
+//							count++;
+//          				}
+        			
 					}
 				}
      		}
