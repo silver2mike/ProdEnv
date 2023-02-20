@@ -36,9 +36,14 @@ pipeline {
 	            	terraform init -no-color
            			terraform apply --auto-approve -no-color
 					'''
-					script {
+				}
+     		}
+		}
+		stage('Test Prod availability') {
+			steps 
+				script {
 						def LB = readFile(file: 'TFN/lb.txt')
-          				def response = httpRequest url: "http://${LB}:8080",  validResponseCodes: '200:599'
+          				def response = httpRequest url: "http://u${LB}",  validResponseCodes: '200:599'
 
 						for (int count =1; count <= 10; count++) {
 							if (response.status == 200) {
@@ -55,12 +60,10 @@ pipeline {
 //            				sleep 10 // wait for 10 seconds before trying again
 //            				response = httpRequest url: "http://${LB}",  validResponseCodes: '200:599'
 //							count++;
-//          				}
-        			
-					}
-				}
-     		}
+   				}
+			}
 		}
+
 //		Terraform destroy		
 		stage('AWS Env destroy by Terraform') {
 			when {
