@@ -40,6 +40,11 @@ pipeline {
      		}
 		}
 		stage('Test Prod availability') {
+			when {
+       	    	expression { 
+       		 		return params.CHOICE == 'build'
+				}
+        	}
 			steps 
 				script {
 						def LB = readFile(file: 'TFN/lb.txt')
