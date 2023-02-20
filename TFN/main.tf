@@ -8,12 +8,6 @@
 
 provider "aws" {
     region      = "us-east-1"
-/*
-    assume_role {
-      role_arn = "arn:aws:iam::725830428680:role/Terraform_from_mikedzn.aws"
-	    session_name = "Terraform"
-    }
-*/
 }
      
 terraform {
@@ -21,7 +15,6 @@ terraform {
     bucket     = "mikedzn-epam-tf-new"
     key        = "prod_new/terraform.tfstate"
     region     = "us-east-1"
- //   role_arn = "arn:aws:iam::725830428680:role/Terraform_from_mikedzn.aws"
   }
 }
 
@@ -58,7 +51,7 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
   availability_zones        = [data.aws_availability_zones.az.names[0], data.aws_availability_zones.az.names[1]]
   health_check_type         = "ELB"
   target_group_arns	        = [aws_lb_target_group.LBTG.arn]
-//  health_check_grace_period = 60
+
   tag {
     key                   = "Name"
     value                 = "Prod Environment"
@@ -77,7 +70,6 @@ resource "aws_lb" "Prod_env_ELB" {
     load_balancer_type = "application"
     internal = false
     security_groups = [aws_security_group.LB.id]
-//    subnets = [data.aws_subnets.def_sub.ids[0], data.aws_subnets.def_sub.ids[1]]
     subnets = data.aws_subnets.def_sub.ids[*]
     enable_cross_zone_load_balancing = "true"
     tags = {
