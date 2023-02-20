@@ -55,8 +55,8 @@ pipeline {
             				sleep 10 // wait for 10 seconds before trying again
             				response = httpRequest url: "http://${LB}",  validResponseCodes: '200:599'
           				}
-        			}
-				slackSend color: "good", message: "Message from Jenkins Pipeline"	
+        			slackSend color: "good", message: "The PROD ENV available on http://${LB}"
+					}
 				}
      		}
 		}
@@ -79,7 +79,7 @@ pipeline {
             		terraform ${CHOICE} --auto-approve -no-color
             		'''          
         		}
-				slackSend color: "good", message: "Message from Jenkins Pipeline"
+				slackSend color: "good", message: "The Prod Env Successfully destroyed"
 			}
 		}
 //		Terraform other actions
