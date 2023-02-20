@@ -56,7 +56,7 @@ pipeline {
 							return 0
 						} else if (count == 10 && response.status != 200) {
 							slackSend color: "danger", message: "The PROD ENV UNAVAILABLE"
-							return 1
+							error("The PROD ENV UNAVAILABLE")
 						} else {
 							sleep 10
 						}
