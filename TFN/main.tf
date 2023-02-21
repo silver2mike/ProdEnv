@@ -46,8 +46,8 @@ resource "aws_autoscaling_group" "Prod_env_ASG" {
   }
   name                      = "AGS-${aws_launch_template.Prod_env_LT.name}"
   max_size                  = 4
-  min_size                  = 3
-  desired_capacity          = 3
+  min_size                  = 2
+  desired_capacity          = 2
   availability_zones        = [data.aws_availability_zones.az.names[0], data.aws_availability_zones.az.names[1]]
   health_check_type         = "ELB"
   target_group_arns	        = [aws_lb_target_group.LBTG.arn]

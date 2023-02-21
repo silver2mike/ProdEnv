@@ -30,3 +30,8 @@
       recreate: yes
       exposed_ports: "80"
       ports: "80:80"
+
+  - name: Clean up unused images
+    community.docker.docker_prune:
+      images: yes
+      all: yes
