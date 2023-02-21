@@ -58,7 +58,7 @@ pipeline {
 							slackSend color: "danger", message: "The PROD ENV UNAVAILABLE"
 							error("The PROD ENV UNAVAILABLE")
 						} else {
-							sleep 10
+							sleep 20
 						}
 					}
 //          				while (response.status != 200 || count < 10) {
