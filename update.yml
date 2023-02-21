@@ -31,7 +31,8 @@
       exposed_ports: "80"
       ports: "80:80"
   
-  - name: Clean up unused images
-    community.docker.docker_prune:
+  - name: Clean up Docker images
+    docker_prune:
       images: yes
-      all: yes
+      images_filters:
+        dangling: false
