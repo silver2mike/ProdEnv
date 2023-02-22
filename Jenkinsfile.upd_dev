@@ -17,8 +17,9 @@ pipeline {
 //      			secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 	        		sh '''
            			ansible-playbook --private-key=$ANSIBLE_PK -i Dev/dev.ini Dev/update_dev.yml
-				'''
+				    '''
 //	       		}
+				slackSend color: "good", message: "DEV Env Updated"
      		}
 		}
 	}

@@ -15,9 +15,10 @@ pipeline {
     	  		accessKeyVariable: 'AWS_ACCESS_KEY_ID', 
       			secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
 	        		sh '''
-           			ansible-playbook --private-key=$ANSIBLE_PK -i aws_ec2.yaml update.yml
-				'''
+           			  ansible-playbook --private-key=$ANSIBLE_PK -i aws_ec2.yaml update.yml
+				    '''
 	       		}
+				slackSend color: "good", message: "PROD Env Updated"
      		}
 		}
 	}
