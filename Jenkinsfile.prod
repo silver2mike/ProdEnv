@@ -51,6 +51,7 @@ pipeline {
           			def response = httpRequest url: "http://${LB}",  validResponseCodes: '200:599'
 
 					for (int count =1; count <= 10; count++) {
+						response = httpRequest url: "http://${LB}",  validResponseCodes: '200:599'
 						if (response.status == 200) {
 							slackSend color: "good", message: "The PROD ENV available on http://${LB}"
 							return 0
@@ -58,7 +59,7 @@ pipeline {
 							slackSend color: "danger", message: "The PROD ENV UNAVAILABLE"
 							error("The PROD ENV UNAVAILABLE")
 						} else {
-							sleep 20
+							sleep 10
 						}
 					}
 //          				while (response.status != 200 || count < 10) {
